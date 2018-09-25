@@ -9,11 +9,12 @@ public class EasyLink_DatabaseManager {
     String sql=null;
     protected Connection conn;
 
+    // Veido savienojumu ar datubāzi
     public EasyLink_DatabaseManager() throws ClassNotFoundException {
         final String USERNAME = "admin";
         final String PASSWORD = "Lotiopaf1";
         final String CONN_STRING = "jdbc:mysql://localhost:3306/?autoReconnect=true&useSSL=false";
-        final String A_STRING = "jdbc:mysql://localhost:3306/";
+
         try {
             conn = DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
 
@@ -24,6 +25,8 @@ public class EasyLink_DatabaseManager {
         }
     }
 
+
+    // Printē visus linkus
     public void printAllLinks(){
 
         String sql = "SELECT * FROM easylink.easylink";
@@ -40,6 +43,8 @@ public class EasyLink_DatabaseManager {
         }
     }
 
+
+    // Atrod linku pēc id(saīsinātā nosaukuma), ja neatrod, tad atgriež tukšu linku
     public Linker findLink(String id) {
 
         try {
@@ -59,6 +64,8 @@ public class EasyLink_DatabaseManager {
         return new Linker("null", "null");
     }
 
+
+    // Ieliek datubāzē jauno linku.
     public boolean insertLink(String id, String full_url){
 
         sql="INSERT INTO easylink.easylink VALUES(?,?)";
@@ -82,10 +89,11 @@ public class EasyLink_DatabaseManager {
             e.printStackTrace();
             return false;
         }
-//        link.toString();
         return false;
     }
 
+
+    // Ja atrod duplikatu, tad izmet false.
     public boolean checkDuplicateID(String id){
         sql="SELECT id FROM easylink.easylink WHERE id=?";
         try {
