@@ -127,7 +127,7 @@ public class EasyLinkController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/links")
 //	@ResponseBody
-	public void addLink(@RequestBody URL link) {
+	public String addLink(@RequestBody URL link) {
 //	(@RequestParam(value = "id", required = false) String id,
 //			@RequestParam(value = "URL", required = false) String URL, HttpServletResponse response) {
 //		
@@ -157,14 +157,14 @@ public class EasyLinkController {
 //		} else {
 
 //			linkManager = new URLService();
-//			StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder();
 			linkManager.insertLink(link.getId(), link.getURL());
 //			linkManager.addLink(id, URL);
 //			response.setStatus(HttpServletResponse.SC_OK);
-//			sb.append("true<br/>\n");
-//			sb.append("<a href='/'>Back</a>\n");
-//
-//			return sb.toString();
+			sb.append("true<br/>\n");
+			sb.append("<a href='/'>Back</a>\n");
+
+			return sb.toString();
 //		}
 
 	}

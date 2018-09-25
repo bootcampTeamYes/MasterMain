@@ -86,17 +86,14 @@ public class EasyLink_DatabaseManager {
             ps=conn.prepareStatement(sql);
             ps.setString(1,id);
             ps.setString(2,full_url);
-            System.out.println(id + " " + full_url);
+
             int res=ps.executeUpdate();
-            System.out.println(res);
+
             if(res==0){
                 return false;
             }
-            if(checkDuplicateID(id)) {
-                conn.commit();
-                return true;
-            }
-            System.out.println("hi");
+            conn.commit();
+            
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
