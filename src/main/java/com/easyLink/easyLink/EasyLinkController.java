@@ -29,8 +29,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class EasyLinkController {
 
 	@Autowired
-	private URLService linkManager;
-
+	private EasyLink_DatabaseManager linkManager;
+//	@Autowired
+//	private URLService urlService;
+	
 //	@RequestMapping(value = "/", produces = "text/html;charset=UTF-8")
 //	public String sayHi(@RequestParam(value = "id", required = false) String id,
 //			@RequestParam(value = "URL", required = false) String URL, HttpServletResponse response) {
@@ -60,9 +62,9 @@ public class EasyLinkController {
 //
 //		}else {
 //
-//			linkManager = new LinkManager();
-//
-//			linkManager.addLink(id, URL);
+////			linkManager = new LinkManager();
+////
+////			linkManager.addLink(id, URL);
 //			response.setStatus(HttpServletResponse.SC_OK);
 //			sb.append("Done! You can find your link at: localhost:8080/"+id+" <br/>\n");
 //			sb.append("<a href='/links'>Back</a>\n");
@@ -73,7 +75,8 @@ public class EasyLinkController {
 //	}
 
 	@RequestMapping("/links")
-	public List<URL> getAllLinks() {
+	public List<URL> getAllLinks() throws ClassNotFoundException {
+		linkManager = new EasyLink_DatabaseManager();
 		return linkManager.getAllLinks();
 	}
 
@@ -85,7 +88,7 @@ public class EasyLinkController {
 	@RequestMapping(method = RequestMethod.GET, value = "/links/{id}")
 	public String getLink(@PathVariable String id, HttpServletResponse httpServletResponse) {
 		
-		if(linkManager.getLink(id).getURL()==null) {
+		if(linkManager.getLink(id)==null) {
 			StringBuilder sb = new StringBuilder();
 			
 			sb.append("Wrong entry! Try again<br/>\n");
@@ -95,9 +98,9 @@ public class EasyLinkController {
 		}else {
 
 			 httpServletResponse.setStatus(302); 
-			httpServletResponse.setHeader("Location", "http://"+linkManager.getLink(id).getURL());
+			httpServletResponse.setHeader("Location", "http://"+linkManager.getLink(id));
 			
-			return "redirect:" + linkManager.getLink(id).getURL();
+			return "redirect:" + linkManager.getLink(id);
 		}
 		
 	}
@@ -153,9 +156,9 @@ public class EasyLinkController {
 //
 //		} else {
 
-			linkManager = new URLService();
+//			linkManager = new URLService();
 //			StringBuilder sb = new StringBuilder();
-			linkManager.addLink(link);
+			linkManager.insertLink(link.getId(), link.getURL());
 //			linkManager.addLink(id, URL);
 //			response.setStatus(HttpServletResponse.SC_OK);
 //			sb.append("true<br/>\n");
@@ -166,15 +169,15 @@ public class EasyLinkController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value = "/links/{id}")
-	public void updateLink(@RequestBody URL link, @PathVariable String id) {
-		linkManager.updateLink(id, link);
-	}
-
-	@RequestMapping(method = RequestMethod.DELETE, value = "/links/{id}")
-	public void deleteLink(@PathVariable String id) {
-		linkManager.deleteLink(id);
-	}
+//	@RequestMapping(method = RequestMethod.PUT, value = "/links/{id}")
+//	public void updateLink(@RequestBody URL link, @PathVariable String id) {
+//		linkManager.updateLink(id, link);
+//	}
+//
+//	@RequestMapping(method = RequestMethod.DELETE, value = "/links/{id}")
+//	public void deleteLink(@PathVariable String id) {
+//		linkManager.deleteLink(id);
+//	}
 
 	
 }

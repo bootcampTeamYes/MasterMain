@@ -1,7 +1,12 @@
 package com.easyLink.easyLink;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class EasyLink_DatabaseManager {
     URL link=new URL();
     PreparedStatement ps;
@@ -16,6 +21,8 @@ public class EasyLink_DatabaseManager {
         final String CONN_STRING = "jdbc:mysql://localhost/?autoReconnect=true&useSSL=false";
 
         try {
+        	
+        	Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
 
             conn.setAutoCommit(false);
@@ -27,25 +34,30 @@ public class EasyLink_DatabaseManager {
 
 
     // Printē visus linkus
-    public void printAllLinks(){
+    public List<URL> getAllLinks(){
 
+    	List<URL> liste = new ArrayList<URL>();
         String sql = "SELECT * FROM easylink.easylink";
 
         try {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                System.out.println(rs.getString(1)+" - "+rs.getString(2));
+            	
+                link = new URL(rs.getString(1), rs.getString(2));
+                liste.add(link);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
+        return liste;
     }
 
 
     // Atrod linku pēc id(saīsinātā nosaukuma), ja neatrod, tad atgriež tukšu linku
-    public URL findLink(String id) {
+    public String getLink(String id) {
 
         try {
 
@@ -55,13 +67,13 @@ public class EasyLink_DatabaseManager {
             rs = ps.executeQuery();
 
             rs.next();
-            return new URL(rs.getString(1), rs.getString(2));
+            return rs.getString(2);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return new URL("null", "null");
+        return "neatrada adresi??";
     }
 
 
@@ -111,12 +123,12 @@ public class EasyLink_DatabaseManager {
         return true;
         }
     
-	public static void main(String[] args) throws ClassNotFoundException {
-		// TODO Auto-generated method stub
-		System.out.println("Hello world!");
-		EasyLink_DatabaseManager db = new EasyLink_DatabaseManager();
-		System.out.println(db.findLink("mySQL"));
-	}
+//	public static void main(String[] args) throws ClassNotFoundException {
+//		// TODO Auto-generated method stub
+//		System.out.println("Hello world!");
+//		EasyLink_DatabaseManager db = new EasyLink_DatabaseManager();
+//		System.out.println(db.findLink("mySQL"));
+//	}
     
 }
 
