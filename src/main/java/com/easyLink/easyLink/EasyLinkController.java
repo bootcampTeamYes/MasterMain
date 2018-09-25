@@ -1,13 +1,13 @@
 package com.easyLink.easyLink;
 
-import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+//import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletResponse;
 
-import org.apache.derby.tools.sysinfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,12 +16,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+//
+//import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @RestController
 public class EasyLinkController {
 
 	@Autowired
-	private LinkManager linkManager;
+	private URLService linkManager;
 
 //	@RequestMapping(value = "/", produces = "text/html;charset=UTF-8")
 //	public String sayHi(@RequestParam(value = "id", required = false) String id,
@@ -65,7 +73,7 @@ public class EasyLinkController {
 //	}
 
 	@RequestMapping("/links")
-	public List<LinkObject> getAllLinks() {
+	public List<URL> getAllLinks() {
 		return linkManager.getAllLinks();
 	}
 
@@ -116,7 +124,7 @@ public class EasyLinkController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/links")
 //	@ResponseBody
-	public void addLink(@RequestBody LinkObject link) {
+	public void addLink(@RequestBody URL link) {
 //	(@RequestParam(value = "id", required = false) String id,
 //			@RequestParam(value = "URL", required = false) String URL, HttpServletResponse response) {
 //		
@@ -145,7 +153,7 @@ public class EasyLinkController {
 //
 //		} else {
 
-			linkManager = new LinkManager();
+			linkManager = new URLService();
 //			StringBuilder sb = new StringBuilder();
 			linkManager.addLink(link);
 //			linkManager.addLink(id, URL);
@@ -159,7 +167,7 @@ public class EasyLinkController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/links/{id}")
-	public void updateLink(@RequestBody LinkObject link, @PathVariable String id) {
+	public void updateLink(@RequestBody URL link, @PathVariable String id) {
 		linkManager.updateLink(id, link);
 	}
 
