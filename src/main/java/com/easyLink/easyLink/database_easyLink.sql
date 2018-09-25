@@ -1,7 +1,7 @@
+
 drop database if exists easylink;
 create database easylink;
 use easylink;
-
 
 --
 -- Pleast do not delete things you do not know about
