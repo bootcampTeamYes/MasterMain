@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class EasyLinkController {
 
 	@Autowired
-	private EasyLink_DatabaseManager linkManager;
+	private EasyLink_DatabaseManager dbManager;
 //	@Autowired
 //	private URLService urlService;
 	
@@ -76,8 +76,8 @@ public class EasyLinkController {
 
 	@RequestMapping("/links")
 	public List<URL> getAllLinks() throws ClassNotFoundException {
-		linkManager = new EasyLink_DatabaseManager();
-		return linkManager.getAllLinks();
+		dbManager = new EasyLink_DatabaseManager();
+		return dbManager.getAllLinks();
 	}
 
 //	@RequestMapping("/links/{id}")
@@ -88,19 +88,19 @@ public class EasyLinkController {
 	@RequestMapping(method = RequestMethod.GET, value = "/links/{id}")
 	public String getLink(@PathVariable String id, HttpServletResponse httpServletResponse) {
 		
-		if(linkManager.getLink(id)==null) {
+		if(dbManager.getLink(id)==null) {
 			StringBuilder sb = new StringBuilder();
 			
 			sb.append("Wrong entry! Try again<br/>\n");
-			sb.append("<a href='/'>Back</a>\n");
+			sb.append("<a href='/links'>Back</a>\n");
 			
 			return sb.toString();
 		}else {
 
 			 httpServletResponse.setStatus(302); 
-			httpServletResponse.setHeader("Location", "http://"+linkManager.getLink(id));
+			httpServletResponse.setHeader("Location", "http://"+dbManager.getLink(id));
 			
-			return "redirect:" + linkManager.getLink(id);
+			return "redirect:" + dbManager.getLink(id);
 		}
 		
 	}
@@ -158,11 +158,11 @@ public class EasyLinkController {
 
 //			linkManager = new URLService();
 			StringBuilder sb = new StringBuilder();
-			linkManager.insertLink(link.getId(), link.getURL());
+			dbManager.insertLink(link.getId(), link.getURL());
 //			linkManager.addLink(id, URL);
 //			response.setStatus(HttpServletResponse.SC_OK);
 			sb.append("true<br/>\n");
-			sb.append("<a href='/'>Back</a>\n");
+			sb.append("<a href='/links'>Back</a>\n");
 
 			return sb.toString();
 //		}
@@ -174,10 +174,26 @@ public class EasyLinkController {
 //		linkManager.updateLink(id, link);
 //	}
 //
-//	@RequestMapping(method = RequestMethod.DELETE, value = "/links/{id}")
-//	public void deleteLink(@PathVariable String id) {
-//		linkManager.deleteLink(id);
-//	}
+	@RequestMapping(method = RequestMethod.DELETE, value = "/links/{id}")
+	public String deleteLink(@PathVariable String id) {
+		StringBuilder sb = new StringBuilder();
+		boolean result = false;
+		result = dbManager.deleteLink(id);
+		
+		if(result) {
+			sb.append("true<br/>\n");
+			sb.append("<a href='/links'>Back</a>\n");
+			
+			return sb.toString();
+			
+		}else {
+			sb.append("false<br/>\n");
+			sb.append("<a href='/links'>Back</a>\n");
+			
+			return sb.toString();
+		}
+		 
+	}
 
 	
 }

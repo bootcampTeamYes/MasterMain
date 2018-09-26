@@ -1,4 +1,4 @@
-package com.easyLink.easyLink;
+/*package com.easyLink.easyLink;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-/*
+
 @Service
 public class LinkManager {
 

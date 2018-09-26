@@ -67,6 +67,7 @@ public class EasyLink_DatabaseManager {
             rs = ps.executeQuery();
 
             rs.next();
+            
             return rs.getString(2);
 
         } catch (SQLException e) {
@@ -119,6 +120,34 @@ public class EasyLink_DatabaseManager {
         }
         return true;
         }
+    
+    public boolean deleteLink(String id) {
+		// TODO #7 Write an sql statement that deletes teacher from database.
+		boolean status = false;
+		sql = "DELETE FROM easylink.easylink WHERE id = ?";
+
+		int result = 0;
+		try {
+
+			ps = conn.prepareStatement(sql);
+            ps.setString(1, id);
+
+            result = ps.executeUpdate();
+            if(result==0){
+                return false;
+            }
+            conn.commit();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+			
+		} finally {
+			if (result != 0) {
+				status = true;
+			}
+		}
+		return status;
+	}
     
 //	public static void main(String[] args) throws ClassNotFoundException {
 //		// TODO Auto-generated method stub
