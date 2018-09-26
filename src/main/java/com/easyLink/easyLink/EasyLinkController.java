@@ -30,53 +30,57 @@ public class EasyLinkController {
 
 	@Autowired
 	private EasyLink_DatabaseManager dbManager;
-//	@Autowired
-//	private URLService urlService;
 	
-//	@RequestMapping(value = "/", produces = "text/html;charset=UTF-8")
-//	public String sayHi(@RequestParam(value = "id", required = false) String id,
-//			@RequestParam(value = "URL", required = false) String URL, HttpServletResponse response) {
-//		
-//		StringBuilder sb = new StringBuilder();
-//		
-//		if (id == null && URL == null) {
-//			
-//			sb.append("Hi, welcome in EasyLink\n");
-//			sb.append("<form action=''>\n");
-//			sb.append("Your link name: <input type='text' name='id' value=''><br/>\n");
-//			sb.append("Your URL:<input type='text' name='URL' value=''><br/>\n");
-//			sb.append("<input type='submit' value='Insert My URL'></form><br/>\n");
-//			
-//			// Following is also redundant because status is OK by default:
-//			response.setStatus(HttpServletResponse.SC_OK);
-//			return sb.toString();
-//			
-//		}else if (id.trim().isEmpty() || URL.trim().isEmpty()) {
+//	@Autowired
+//	private RegistrationService regService;
+	
+	@RequestMapping(value = "/", produces = "text/html;charset=UTF-8")
+	public String sayHi(@RequestParam(value = "id", required = false) String id,
+			@RequestParam(value = "URL", required = false) String URL, HttpServletResponse response) {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		if (id == null && URL == null) {
+			
+			sb.append("Hi, welcome in EasyLink\n");
+			sb.append("<form action=''>\n");
+			sb.append("Your link name: <input type='text' name='id' value=''><br/>\n");
+			sb.append("Your URL:<input type='text' name='URL' value=''><br/>\n");
+			sb.append("<input type='submit' value='Insert My URL'></form><br/>\n");
+			
+			sb.append("<a href='/links'>See all links</a>\n");
+			// Following is also redundant because status is OK by default:
+			response.setStatus(HttpServletResponse.SC_OK);
+			return sb.toString();
+			
+		}else if (id.trim().isEmpty() || URL.trim().isEmpty()) {
+
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+
+			sb.append("Wrong entry! Try again<br/>\n");
+			sb.append("<a href='/'>Back</a>\n");
+
+			return sb.toString();
+
+		}else {
+
+//			linkManager = new LinkManager();
 //
-//			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//
-//			sb.append("Wrong entry! Try again<br/>\n");
-//			sb.append("<a href='/'>Back</a>\n");
-//
-//			return sb.toString();
-//
-//		}else {
-//
-////			linkManager = new LinkManager();
-////
-////			linkManager.addLink(id, URL);
-//			response.setStatus(HttpServletResponse.SC_OK);
-//			sb.append("Done! You can find your link at: localhost:8080/"+id+" <br/>\n");
-//			sb.append("<a href='/links'>Back</a>\n");
-//
-//			return sb.toString();
-//		}
-//		
-//	}
+//			linkManager.addLink(id, URL);
+			response.setStatus(HttpServletResponse.SC_OK);
+			sb.append("Done! You can find your link at: localhost:8080/"+id+" <br/>\n");
+			sb.append("<a href='/links'>Back</a>\n");
+
+			return sb.toString();
+		}
+		
+	}
 
 	@RequestMapping("/links")
 	public List<URL> getAllLinks() throws ClassNotFoundException {
+		StringBuilder sb = new StringBuilder();
 		dbManager = new EasyLink_DatabaseManager();
+		
 		return dbManager.getAllLinks();
 	}
 
@@ -96,6 +100,7 @@ public class EasyLinkController {
 			
 			return sb.toString();
 		}else {
+
 
 			 httpServletResponse.setStatus(302); 
 			httpServletResponse.setHeader("Location", "http://"+dbManager.getLink(id));
@@ -195,5 +200,62 @@ public class EasyLinkController {
 		 
 	}
 
-	
 }
+/*		//method for saving registered user
+//	@RequestMapping(method = RequestMethod.POST, value = "/user")
+//	public String saveUser(@RequestParam String username, @RequestParam String password, @RequestParam String email ) {
+//		Registration user = new Registration(username, password, email);
+//		regService.saveRegistration(user);
+//		return "User saved!";
+//	}
+//	
+//	@RequestMapping(method = RequestMethod.GET, value = "/users")
+////	@ResponseBody
+//	public String getUsers(@RequestBody URL link) {
+//		StringBuilder sb = new StringBuilder();
+//		dbManager = new EasyLink_DatabaseManager();
+//		
+//		return regService.
+////	}
+//
+//}
+	
+	
+		//method to addlink to registered User
+	@RequestMapping(method = RequestMethod.POST, value = "/user/links")
+	public String addLinktoUser(@RequestBody URL link) {
+		StringBuilder sb = new StringBuilder();
+		Registration reg = new Registration();
+		
+		reg.addToList(new URL(link.getId(), link.getURL()));
+//		dbManager.insertLink(link.getId(), link.getURL());
+//		linkManager.addLink(id, URL);
+//		response.setStatus(HttpServletResponse.SC_OK);
+		sb.append("true<br/>\n");
+		sb.append("<a href='/links'>Back</a>\n");
+
+		return sb.toString();
+//	}
+
+}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/links/{id}")
+	public String getUserLink(@PathVariable String id, HttpServletResponse httpServletResponse) {
+		
+		if(dbManager.getLink(id)==null) {
+			StringBuilder sb = new StringBuilder();
+			
+			sb.append("Wrong entry! Try again<br/>\n");
+			sb.append("<a href='/links'>Back</a>\n");
+			
+			return sb.toString();
+		}else {
+
+			 httpServletResponse.setStatus(302); 
+			httpServletResponse.setHeader("Location", "http://"+dbManager.getLink(id));
+			
+			return "redirect:" + dbManager.getLink(id);
+		}
+		
+	}
+}*/
