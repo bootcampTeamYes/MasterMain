@@ -1,0 +1,307 @@
+*{
+    box-sizing: border-box;
+  }
+  
+  body{
+    margin:0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size:1rem;
+    font-weight:normal;
+    line-height:1.5;
+    color:#333;
+    overflow-x:hidden;
+  }
+  
+  .v-header{
+    height:100vh;
+    display:flex;
+    align-items:center;
+    color:#fff;
+  }
+  
+  .container{
+    max-width:960px;
+    padding-left:1rem;
+    padding-right:1rem;
+    margin:auto;
+    text-align:center;
+  }
+  
+  .fullscreen-video-wrap{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
+    overflow:hidden;
+  }
+  
+  .fullscreen-video-wrap video{
+    min-height:100%;
+    min-width:100%;
+  }
+  
+  .header-overlay{
+    height:100vh;
+    position: absolute;
+    top:0;
+    left:0;
+    width:100vw;
+    z-index:1;
+    background:#225470;
+    opacity:0.85;
+  }
+  
+  .header-content{
+    z-index:2;
+  }
+  
+  .header-content h1{
+    position: absolute;
+    text-align:center;
+    font-size: 4rem;
+    font-family: "Cookie";
+    font-weight: bold;
+    margin-top: -200px;
+    z-index: 1;
+    opacity: 0.9;
+  }
+  
+  .header-content p{
+    position: absolute;
+    text-align:center;
+    font-size: 1.5rem;
+    margin-top: -100px;
+    z-index: 1;
+    opacity: 0.9;
+
+
+    
+  }
+  
+  .btnmain{
+    position: relative;
+    background-image: linear-gradient(to bottom right, rgb(128, 3, 3), rgb(255, 102, 0));
+    color: #fff;
+    font-size: 1.2rem;
+    padding: 0.83rem 2rem;
+    text-decoration: none;
+    z-index: 2;
+    top: 15px;
+    right: -680px;
+    z-index: 30;
+  }
+  
+  .section{
+    padding:20px 0;
+  }
+  
+  .blackBar{
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:70px;
+    background-color: black;
+    z-index: 2;
+    opacity:1;
+  } 
+
+  .blackBar h1{
+      position: fixed;
+      font-family: "Cookie";
+      color: white;
+      font-size: 18px;
+      margin-left: -150px;
+  }
+
+  .btnlogin{
+    position: fixed;
+    background-image: linear-gradient(to bottom right, rgb(128, 3, 3), rgb(255, 102, 0));
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.40rem 1.5rem;
+    text-decoration: none;
+    z-index: 2;
+    top: 20px;
+    right: 200px; 
+}
+
+.btnsignup{
+    position: fixed;
+    
+    background-image: linear-gradient(to bottom right, rgb(128, 3, 3), rgb(255, 102, 0));
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.40rem 1.5rem;
+    text-decoration: none;
+    z-index: 2;
+    top: 20px;
+    right: 50px; 
+
+}
+
+  .section-b{
+    background:#333;
+    color:#fff;
+  }
+  
+  @media(max-width:960px){
+    .container{
+      padding-right:3rem;
+      padding-left:3rem;
+    }
+  }
+
+
+
+ /* _______________________TEKSA ANIMACIJA_______________________ */
+
+  .class1{
+    position: absolute;
+    margin-left: -120px;
+    margin-top: -40px;
+    width: 1000px;
+    z-index: 2;
+  }
+  
+  .class2{
+    position: absolute;
+    margin-left: 110px;
+    margin-top: 100px;
+    width: 450px;
+  }
+  
+  
+  .input {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      margin: 1em;
+      max-width: 600px;
+      width: calc(100% - 2em);
+      vertical-align: top;
+  }
+  
+  .input__field {
+      position: relative;
+      display: block;
+      float: right;
+      padding: 0.8em;
+      width: 60%;
+      border: none;
+      border-radius: 0;
+      background: #f0f0f0;
+      color: #aaa;
+      font-weight: bold;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      -webkit-appearance: none; /* for box shadows to show on iOS */
+  }
+  
+  .input__field:focus {
+      outline: none;
+  }
+  
+  .input__label {
+      display: inline-block;
+  
+      padding: 0 1em;
+      width: 40%;
+      color: #6a7989;
+      font-weight: bold;
+      font-size: 70.25%;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+  }
+  
+  .input__label-content {
+      position: relative;
+      display: block;
+      padding: 1.6em 0;
+      width: 100%;
+  }
+  
+  .graphic {
+      position: absolute;
+      top: 0;
+      left: 0;
+      fill: none;
+  }
+  
+  .icon {
+      color: #ddd;
+      font-size: 150%;
+  }
+  
+  
+  /* Kaede */
+  .input--kaede {
+      display: block;
+      overflow: hidden;
+      margin: 1em auto 2em;
+      background: #EFEEEE;
+  }
+  
+  .input__field--kaede {
+      position: absolute;
+      top: 0;
+      right: 100%;
+      width: 80%;
+      height: 100%;
+      background: #fff;
+      color: #9DABBA;
+      -webkit-transition: -webkit-transform 0.5s;
+      transition: transform 0.5s;
+      -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+      transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+  }
+  
+  .input__label--kaede {
+      z-index: 10;
+      display: block;
+      width: 140%;
+      height: 100%;
+      text-align: left;
+      cursor: text;
+      -webkit-transform-origin: 0% 50%;
+      transform-origin: 0% 50%;
+      -webkit-transition: -webkit-transform 0.5s;
+      transition: transform 0.5s;
+      -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+      transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+  }
+  
+  .input__label-content--kaede {
+      padding: 1.5em 0;
+  }
+  
+  .input__field--kaede:focus,
+  .input--filled .input__field--kaede {
+      -webkit-transform: translate3d(100%, 0, 0);
+      transform: translate3d(100%, 0, 0);
+      -webkit-transition-delay: 0.06s;
+      transition-delay: 0.06s;
+  }
+  
+  .input__field--kaede:focus + .input__label--kaede,
+  .input--filled .input__label--kaede  {
+      -webkit-transform: translate3d(60%, 0, 0);
+      transform: translate3d(60%, 0, 0);
+      pointer-events: none;
+  }
+  
+  @media screen and (max-width: 34em) {
+      .input__field--kaede:focus + .input__label--kaede,
+      .input--filled .input__label--kaede  {
+          -webkit-transform: translate3d(65%, 0, 0) scale3d(0.65, 0.65, 1);
+          transform: translate3d(65%, 0, 0) scale3d(0.65, 0.65, 1);
+          pointer-events: none;
+      }
+  }
+  

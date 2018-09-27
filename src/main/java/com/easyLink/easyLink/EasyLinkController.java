@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,47 +36,47 @@ public class EasyLinkController {
 //	@Autowired
 //	private RegistrationService regService;
 	
-	@RequestMapping(value = "/", produces = "text/html;charset=UTF-8")
-	public String sayHi(@RequestParam(value = "id", required = false) String id,
-			@RequestParam(value = "URL", required = false) String URL, HttpServletResponse response) {
-		
-		StringBuilder sb = new StringBuilder();
-		
-		if (id == null && URL == null) {
-			
-			sb.append("Hi, welcome in EasyLink\n");
-			sb.append("<form action=''>\n");
-			sb.append("Your link name: <input type='text' name='id' value=''><br/>\n");
-			sb.append("Your URL:<input type='text' name='URL' value=''><br/>\n");
-			sb.append("<input type='submit' value='Insert My URL'></form><br/>\n");
-			
-			sb.append("<a href='/links'>See all links</a>\n");
-			// Following is also redundant because status is OK by default:
-			response.setStatus(HttpServletResponse.SC_OK);
-			return sb.toString();
-			
-		}else if (id.trim().isEmpty() || URL.trim().isEmpty()) {
-
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-
-			sb.append("Wrong entry! Try again<br/>\n");
-			sb.append("<a href='/'>Back</a>\n");
-
-			return sb.toString();
-
-		}else {
-
-//			linkManager = new LinkManager();
+//	@RequestMapping(value = "/", produces = "text/html;charset=UTF-8")
+//	public String sayHi(@RequestParam(value = "id", required = false) String id,
+//			@RequestParam(value = "URL", required = false) String URL, HttpServletResponse response) {
+//		
+//		StringBuilder sb = new StringBuilder();
+//		
+//		if (id == null && URL == null) {
+//			
+//			sb.append("Hi, welcome in EasyLink\n");
+//			sb.append("<form action=''>\n");
+//			sb.append("Your link name: <input type='text' name='id' value=''><br/>\n");
+//			sb.append("Your URL:<input type='text' name='URL' value=''><br/>\n");
+//			sb.append("<input type='submit' value='Insert My URL'></form><br/>\n");
+//			
+//			sb.append("<a href='/links'>See all links</a>\n");
+//			// Following is also redundant because status is OK by default:
+//			response.setStatus(HttpServletResponse.SC_OK);
+//			return sb.toString();
+//			
+//		}else if (id.trim().isEmpty() || URL.trim().isEmpty()) {
 //
-//			linkManager.addLink(id, URL);
-			response.setStatus(HttpServletResponse.SC_OK);
-			sb.append("Done! You can find your link at: localhost:8080/"+id+" <br/>\n");
-			sb.append("<a href='/links'>Back</a>\n");
-
-			return sb.toString();
-		}
-		
-	}
+//			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//
+//			sb.append("Wrong entry! Try again<br/>\n");
+//			sb.append("<a href='/'>Back</a>\n");
+//
+//			return sb.toString();
+//
+//		}else {
+//
+////			linkManager = new LinkManager();
+////
+////			linkManager.addLink(id, URL);
+//			response.setStatus(HttpServletResponse.SC_OK);
+//			sb.append("Done! You can find your link at: localhost:8080/"+id+" <br/>\n");
+//			sb.append("<a href='/links'>Back</a>\n");
+//
+//			return sb.toString();
+//		}
+//		
+//	}
 
 	@RequestMapping("/links")
 	public List<URL> getAllLinks() throws ClassNotFoundException {
@@ -199,6 +201,14 @@ public class EasyLinkController {
 		}
 		 
 	}
+	
+//	//registracijas metodes
+//	@RequestMapping(value = "/user/registration", method = RequestMethod.GET)
+//	public String showRegistrationForm(WebRequest request, Model model) {
+//	    Registration user = new Registration();
+//	    model.addAttribute(user.getUsername(), user);
+//	    return "registration";
+//	}
 
 }
 /*		//method for saving registered user

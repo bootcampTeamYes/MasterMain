@@ -1,5 +1,8 @@
 /*package com.easyLink.easyLink;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -18,5 +21,6 @@ public class RegistrationService {
 	public void saveRegistration(Registration user) {
 		repo.save(user);
 	}
+	
 }
 */
