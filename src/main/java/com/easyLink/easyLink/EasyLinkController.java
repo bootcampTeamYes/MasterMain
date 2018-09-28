@@ -32,10 +32,10 @@ public class EasyLinkController {
 
 	@Autowired
 	private EasyLink_DatabaseManager dbManager;
-	
+
 //	@Autowired
 //	private RegistrationService regService;
-	
+
 //	@RequestMapping(value = "/", produces = "text/html;charset=UTF-8")
 //	public String sayHi(@RequestParam(value = "id", required = false) String id,
 //			@RequestParam(value = "URL", required = false) String URL, HttpServletResponse response) {
@@ -72,7 +72,7 @@ public class EasyLinkController {
 //			response.setStatus(HttpServletResponse.SC_OK);
 //			sb.append("Done! You can find your link at: localhost:8080/"+id+" <br/>\n");
 //			sb.append("<a href='/links'>Back</a>\n");
-//
+// 
 //			return sb.toString();
 //		}
 //		
@@ -80,128 +80,79 @@ public class EasyLinkController {
 
 	@RequestMapping("/links")
 	public List<URL> getAllLinks() throws ClassNotFoundException {
-		StringBuilder sb = new StringBuilder();
+
 		dbManager = new EasyLink_DatabaseManager();
-		
 		return dbManager.getAllLinks();
 	}
 
-//	@RequestMapping("/links/{id}")
-//	public Link getLinkID(@PathVariable String id) {
-//		return linkManager.getLink(id);
-//	}
-
 	@RequestMapping(method = RequestMethod.GET, value = "/links/{id}")
 	public String getLink(@PathVariable String id, HttpServletResponse httpServletResponse) {
-		
-		if(dbManager.getLink(id)==null) {
+
+		if (dbManager.getLink(id) == null) {
 			StringBuilder sb = new StringBuilder();
-			
+
 			sb.append("Wrong entry! Try again<br/>\n");
 			sb.append("<a href='/links'>Back</a>\n");
-			
+
 			return sb.toString();
-		}else {
+		} else {
 
-			 httpServletResponse.setStatus(302); 
-			httpServletResponse.setHeader("Location", "http://"+dbManager.getLink(id));
-			
-			return "redirect:" + dbManager.getLink(id);
+			String link = dbManager.getLink(id);
+
+			if (link.length() > 6
+					&& (link.substring(0, 6).equals("http://") || link.substring(0, 7).equals("https://"))) {
+				httpServletResponse.setStatus(302);
+				httpServletResponse.setHeader("Location", link);
+
+				return "redirect:" + link;
+
+			} else {
+				httpServletResponse.setStatus(302);
+				httpServletResponse.setHeader("Location", "https://" + link);
+
+				return "redirect:" + link;
+			}
+
 		}
-		
+
 	}
-
-	/*
-	 * redirekts 2 varianti First:
-	 * 
-	 * @RequestMapping(value = "/redirect", method = RequestMethod.GET) public void
-	 * method(HttpServletResponse httpServletResponse) {
-	 * httpServletResponse.setHeader("Location", projectUrl);
-	 * httpServletResponse.setStatus(302); }
-	 * 
-	 * Second:
-	 * 
-	 * @RequestMapping(value = "/redirect", method = RequestMethod.GET) public
-	 * ModelAndView method() { return new ModelAndView("redirect:" + projectUrl);
-	 * 
-	 * }
-	 */
-
-	// @RequestMapping(method=RequestMethod.POST, value="/links")
-	// public void addLink(@RequestBody Link link) {
-	// linkManager.addLink(link);
 
 	@RequestMapping(method = RequestMethod.POST, value = "/links")
 //	@ResponseBody
 	public String addLink(@RequestBody URL link) {
-//	(@RequestParam(value = "id", required = false) String id,
-//			@RequestParam(value = "URL", required = false) String URL, HttpServletResponse response) {
-//		
-//		if (id == null && URL == null) {
-//
-//			StringBuilder sb = new StringBuilder();
-//			sb.append("<form action=''>\n");
-//			sb.append("Name: <input type='text' name='name' value=''><br/>\n");
-//			sb.append("Surname:<input type='text' name='surname' value=''><br/>\n");
-//			sb.append("<input type='submit' value='Insert'></form><br/>\n");
-//			sb.append("<a href='/'>Back</a>\n");
-//
-//			response.setStatus(HttpServletResponse.SC_OK);
-//
-//			return sb.toString();
-//
-//		} else if (id.trim().isEmpty() || URL.trim().isEmpty()) {
-//
-//			StringBuilder sb = new StringBuilder();
-//			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//
-//			sb.append("false<br/>\n");
-//			sb.append("<a href='/'>Back</a>\n");
-//
-//			return sb.toString();
-//
-//		} else {
 
-//			linkManager = new URLService();
-			StringBuilder sb = new StringBuilder();
-			dbManager.insertLink(link.getId(), link.getURL());
-//			linkManager.addLink(id, URL);
-//			response.setStatus(HttpServletResponse.SC_OK);
-			sb.append("true<br/>\n");
-			sb.append("<a href='/links'>Back</a>\n");
+		StringBuilder sb = new StringBuilder();
 
-			return sb.toString();
-//		}
+		dbManager.insertLink(link.getId(), link.getURL());
+
+		return sb.toString();
 
 	}
 
-//	@RequestMapping(method = RequestMethod.PUT, value = "/links/{id}")
-//	public void updateLink(@RequestBody URL link, @PathVariable String id) {
-//		linkManager.updateLink(id, link);
-//	}
-//
 	@RequestMapping(method = RequestMethod.DELETE, value = "/links/{id}")
 	public String deleteLink(@PathVariable String id) {
 		StringBuilder sb = new StringBuilder();
 		boolean result = false;
 		result = dbManager.deleteLink(id);
-		
-		if(result) {
+
+		if (result) {
 			sb.append("true<br/>\n");
 			sb.append("<a href='/links'>Back</a>\n");
-			
+
 			return sb.toString();
-			
-		}else {
+
+		} else {
 			sb.append("false<br/>\n");
 			sb.append("<a href='/links'>Back</a>\n");
-			
+
 			return sb.toString();
 		}
-		 
+
 	}
-	
+}
+
 //	//registracijas metodes
+
 //	@RequestMapping(value = "/user/registration", method = RequestMethod.GET)
 //	public String showRegistrationForm(WebRequest request, Model model) {
 //	    Registration user = new Registration();
@@ -209,62 +160,48 @@ public class EasyLinkController {
 //	    return "registration";
 //	}
 
-}
-/*		//method for saving registered user
-//	@RequestMapping(method = RequestMethod.POST, value = "/user")
-//	public String saveUser(@RequestParam String username, @RequestParam String password, @RequestParam String email ) {
-//		Registration user = new Registration(username, password, email);
-//		regService.saveRegistration(user);
-//		return "User saved!";
-//	}
-//	
-//	@RequestMapping(method = RequestMethod.GET, value = "/users")
-////	@ResponseBody
-//	public String getUsers(@RequestBody URL link) {
-//		StringBuilder sb = new StringBuilder();
-//		dbManager = new EasyLink_DatabaseManager();
-//		
-//		return regService.
-////	}
-//
-//}
-	
-	
-		//method to addlink to registered User
-	@RequestMapping(method = RequestMethod.POST, value = "/user/links")
-	public String addLinktoUser(@RequestBody URL link) {
-		StringBuilder sb = new StringBuilder();
-		Registration reg = new Registration();
-		
-		reg.addToList(new URL(link.getId(), link.getURL()));
-//		dbManager.insertLink(link.getId(), link.getURL());
-//		linkManager.addLink(id, URL);
-//		response.setStatus(HttpServletResponse.SC_OK);
-		sb.append("true<br/>\n");
-		sb.append("<a href='/links'>Back</a>\n");
-
-		return sb.toString();
-//	}
-
-}
-	
-	@RequestMapping(method = RequestMethod.GET, value = "/links/{id}")
-	public String getUserLink(@PathVariable String id, HttpServletResponse httpServletResponse) {
-		
-		if(dbManager.getLink(id)==null) {
-			StringBuilder sb = new StringBuilder();
-			
-			sb.append("Wrong entry! Try again<br/>\n");
-			sb.append("<a href='/links'>Back</a>\n");
-			
-			return sb.toString();
-		}else {
-
-			 httpServletResponse.setStatus(302); 
-			httpServletResponse.setHeader("Location", "http://"+dbManager.getLink(id));
-			
-			return "redirect:" + dbManager.getLink(id);
-		}
-		
-	}
-}*/
+/*
+ * //method for saving registered user // @RequestMapping(method =
+ * RequestMethod.POST, value = "/user") // public String saveUser(@RequestParam
+ * String username, @RequestParam String password, @RequestParam String email )
+ * { // Registration user = new Registration(username, password, email); //
+ * regService.saveRegistration(user); // return "User saved!"; // } //
+ * // @RequestMapping(method = RequestMethod.GET, value = "/users")
+ * //// @ResponseBody // public String getUsers(@RequestBody URL link) { //
+ * StringBuilder sb = new StringBuilder(); // dbManager = new
+ * EasyLink_DatabaseManager(); // // return regService. //// } // //}
+ * 
+ * 
+ * //method to addlink to registered User
+ * 
+ * @RequestMapping(method = RequestMethod.POST, value = "/user/links") public
+ * String addLinktoUser(@RequestBody URL link) { StringBuilder sb = new
+ * StringBuilder(); Registration reg = new Registration();
+ * 
+ * reg.addToList(new URL(link.getId(), link.getURL())); //
+ * dbManager.insertLink(link.getId(), link.getURL()); // linkManager.addLink(id,
+ * URL); // response.setStatus(HttpServletResponse.SC_OK);
+ * sb.append("true<br/>\n"); sb.append("<a href='/links'>Back</a>\n");
+ * 
+ * return sb.toString(); // }
+ * 
+ * }
+ * 
+ * @RequestMapping(method = RequestMethod.GET, value = "/links/{id}") public
+ * String getUserLink(@PathVariable String id, HttpServletResponse
+ * httpServletResponse) {
+ * 
+ * if(dbManager.getLink(id)==null) { StringBuilder sb = new StringBuilder();
+ * 
+ * sb.append("Wrong entry! Try again<br/>\n");
+ * sb.append("<a href='/links'>Back</a>\n");
+ * 
+ * return sb.toString(); }else {
+ * 
+ * httpServletResponse.setStatus(302); httpServletResponse.setHeader("Location",
+ * "http://"+dbManager.getLink(id));
+ * 
+ * return "redirect:" + dbManager.getLink(id); }
+ * 
+ * } }
+ */

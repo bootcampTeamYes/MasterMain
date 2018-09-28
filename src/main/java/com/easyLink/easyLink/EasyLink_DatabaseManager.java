@@ -74,7 +74,7 @@ public class EasyLink_DatabaseManager {
             e.printStackTrace();
         }
 
-        return "neatrada adresi??";
+        return "You`re not lucky. No link found for such Id :(";
     }
 
 
@@ -112,13 +112,13 @@ public class EasyLink_DatabaseManager {
             rs=ps.executeQuery();
 
             if(rs.next()){
-            return false;
+            return true;
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
+        return false;
         }
     
     public boolean deleteLink(String id) {
@@ -148,14 +148,7 @@ public class EasyLink_DatabaseManager {
 		}
 		return status;
 	}
-    
-//	public static void main(String[] args) throws ClassNotFoundException {
-//		// TODO Auto-generated method stub
-//		System.out.println("Hello world!");
-//		EasyLink_DatabaseManager db = new EasyLink_DatabaseManager();
-//		System.out.println(db.findLink("mySQL"));
-//	}
-    
+
 }
 
 //package com.easyLink.easyLink;

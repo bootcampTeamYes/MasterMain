@@ -20,7 +20,6 @@ public class URL{
 	public URL(String id, String url) {
 		this.id = id;
 		this.url = url;
-
 	}
 
 	public String getId() {
