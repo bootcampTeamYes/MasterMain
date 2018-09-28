@@ -103,7 +103,6 @@ public class EasyLinkController {
 			return sb.toString();
 		}else {
 
-
 			 httpServletResponse.setStatus(302); 
 			httpServletResponse.setHeader("Location", "http://"+dbManager.getLink(id));
 			

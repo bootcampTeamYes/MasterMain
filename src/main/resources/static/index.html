@@ -1,7 +1,8 @@
-<%= stylesheet_link_tag "/" %>
+<!--  <%= stylesheet_link_tag "/" %>  -->
 <link rel="stylesheet" type="text/css" href="welcome.css">
 <link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
-   
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <header class="v-header container">
     <div class="fullscreen-video-wrap">
@@ -12,8 +13,8 @@
     <div class="header-content text-md-center">
       <h1>Welcome to the best link shortener on the market</h1>
       <p>Enter a link and press "Shorten" to shorten your link</p>
-      <a href="#" class="btnmain">Shorten</a>
-      <%= link_to 'New Url', new_welcome_path, remote: true%>
+      <button class="btnmain" id="save-URL">Shorten</button>
+      <!--  	<%= link_to '/links', new_welcome_path, remote: true%> 	-->
 
       
       <div class = "class1" >
@@ -37,6 +38,9 @@
     </div>
   </header>
 
+<body>
+  <script type="text/javascript" src="index.js"></script>
+</body>
 
   <section class="section blackBar">
   <div class="container">
@@ -52,10 +56,3 @@
       <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde, impedit amet minima iste autem cumque et maiores blanditiis doloribus aut dolorum quaerat non est voluptatum, tempore ut dolorem voluptas quod quae accusantium, ex inventore ducimus. Beatae mollitia exercitationem, quam similique, consectetur ratione reprehenderit delectus neque eligendi facere soluta dolor ducimus!</p>
     </div>
   </section>
-
-
-
-
-
-
-
