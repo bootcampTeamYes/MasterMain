@@ -1,5 +1,6 @@
 package com.easyLink.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 //import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
-import com.easyLink.database.EasyLink_DatabaseManager;
+import com.easyLink.database.EasyLinkDatabaseManager;
 import com.easyLink.database.InsertCheck;
 import com.easyLink.links.URL;
 
@@ -35,26 +36,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class EasyLinkController {
 
 	@Autowired
-	private EasyLink_DatabaseManager dbManager;
+	private EasyLinkDatabaseManager dbManager;
 
 //	@Autowired
 //	private RegistrationService regService;
 
 	@RequestMapping("/links")
-	public List<URL> getAllLinks() throws ClassNotFoundException {
+	public List<URL> getAllLinks() throws ClassNotFoundException, SQLException {
 
-		dbManager = new EasyLink_DatabaseManager();
+		dbManager = new EasyLinkDatabaseManager();
 		return dbManager.getAllLinks();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/links/{id}")
-	public String getLink(@PathVariable String id, HttpServletResponse httpServletResponse) {
+	public String getLink(@PathVariable String id, HttpServletResponse httpServletResponse) throws ClassNotFoundException, SQLException {
 
 		if (dbManager.getLink(id) == null) {
 			StringBuilder sb = new StringBuilder();
 
 			sb.append("Wrong entry! Try again<br/>\n");
-			sb.append("<a href='/links'>Back</a>\n");
 
 			return sb.toString();
 		} else {
@@ -79,7 +79,7 @@ public class EasyLinkController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/links")
-	public InsertCheck addLink(@RequestBody URL link) {
+	public InsertCheck addLink(@RequestBody URL link) throws ClassNotFoundException, SQLException {
 
 		StringBuilder sb = new StringBuilder();
 		InsertCheck checker = new InsertCheck();
