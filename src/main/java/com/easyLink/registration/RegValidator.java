@@ -1,3 +1,4 @@
+package com.easyLink.registration;
 /*package com.easyLink.easyLink;
 
 import javax.validation.Valid;

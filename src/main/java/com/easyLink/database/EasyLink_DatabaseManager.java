@@ -1,10 +1,12 @@
-package com.easyLink.easyLink;
+package com.easyLink.database;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
+import com.easyLink.links.URL;
 
 @Service
 public class EasyLink_DatabaseManager {
@@ -99,7 +101,7 @@ public class EasyLink_DatabaseManager {
             e.printStackTrace();
             return false;
         }
-        return false;
+        return true;
     }
 
 

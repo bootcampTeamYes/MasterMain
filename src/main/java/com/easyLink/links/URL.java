@@ -1,4 +1,4 @@
-package com.easyLink.easyLink;
+package com.easyLink.links;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

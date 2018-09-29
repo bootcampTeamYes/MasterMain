@@ -1,4 +1,4 @@
-package com.easyLink.easyLink;
+package com.easyLink.controller;
 
 import java.util.List;
 
@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
+import com.easyLink.database.EasyLink_DatabaseManager;
+import com.easyLink.database.InsertCheck;
+import com.easyLink.links.URL;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 //
@@ -35,48 +39,6 @@ public class EasyLinkController {
 
 //	@Autowired
 //	private RegistrationService regService;
-
-//	@RequestMapping(value = "/", produces = "text/html;charset=UTF-8")
-//	public String sayHi(@RequestParam(value = "id", required = false) String id,
-//			@RequestParam(value = "URL", required = false) String URL, HttpServletResponse response) {
-//		
-//		StringBuilder sb = new StringBuilder();
-//		
-//		if (id == null && URL == null) {
-//			
-//			sb.append("Hi, welcome in EasyLink\n");
-//			sb.append("<form action=''>\n");
-//			sb.append("Your link name: <input type='text' name='id' value=''><br/>\n");
-//			sb.append("Your URL:<input type='text' name='URL' value=''><br/>\n");
-//			sb.append("<input type='submit' value='Insert My URL'></form><br/>\n");
-//			
-//			sb.append("<a href='/links'>See all links</a>\n");
-//			// Following is also redundant because status is OK by default:
-//			response.setStatus(HttpServletResponse.SC_OK);
-//			return sb.toString();
-//			
-//		}else if (id.trim().isEmpty() || URL.trim().isEmpty()) {
-//
-//			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//
-//			sb.append("Wrong entry! Try again<br/>\n");
-//			sb.append("<a href='/'>Back</a>\n");
-//
-//			return sb.toString();
-//
-//		}else {
-//
-////			linkManager = new LinkManager();
-////
-////			linkManager.addLink(id, URL);
-//			response.setStatus(HttpServletResponse.SC_OK);
-//			sb.append("Done! You can find your link at: localhost:8080/"+id+" <br/>\n");
-//			sb.append("<a href='/links'>Back</a>\n");
-// 
-//			return sb.toString();
-//		}
-//		
-//	}
 
 	@RequestMapping("/links")
 	public List<URL> getAllLinks() throws ClassNotFoundException {
@@ -114,18 +76,24 @@ public class EasyLinkController {
 			}
 
 		}
-
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/links")
-//	@ResponseBody
-	public String addLink(@RequestBody URL link) {
+	public InsertCheck addLink(@RequestBody URL link) {
 
 		StringBuilder sb = new StringBuilder();
+		InsertCheck checker = new InsertCheck();
 
-		dbManager.insertLink(link.getId(), link.getURL());
+		if(dbManager.insertLink(link.getId(), link.getURL())) {
+			sb.append("Link inserted in database!");
+			checker.setResult(true);
+			
+		}else {
+			sb.append("Double entry or error");
+			checker.setResult(false);
+		} 
 
-		return sb.toString();
+		return checker;
 
 	}
 
