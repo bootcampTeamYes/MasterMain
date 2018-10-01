@@ -17,7 +17,7 @@ public class Registration {
 		private String username;
 		private String password;
 		private String email;
-		private List<URL> list;
+		private Set<URL> list;
 		
 		public Registration() {
 
