@@ -19,10 +19,10 @@ public class EasyLinkDatabaseManager {
 	private static final String USERNAME = "root";
 	private static final String PASSWORD = "abcd1234";
 	private static final String CONN_STRING = "jdbc:mysql://localhost/?autoReconnect=true&useSSL=false";
-	
+
 	private void CreateConnection() throws ClassNotFoundException, SQLException {
 
-		if(conn ==null) {
+		if (conn == null) {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
 
@@ -48,18 +48,18 @@ public class EasyLinkDatabaseManager {
 	public List<URL> getAllLinks() throws ClassNotFoundException, SQLException {
 
 		CreateConnection();
-		
+
 		List<URL> liste = new ArrayList<URL>();
 		String sql = "SELECT * FROM easylink.easylink";
 
 //		try {
-			ps = conn.prepareStatement(sql);
-			rs = ps.executeQuery();
-			while (rs.next()) {
+		ps = conn.prepareStatement(sql);
+		rs = ps.executeQuery();
+		while (rs.next()) {
 
-				link = new URL(rs.getString(1), rs.getString(2));
-				liste.add(link);
-			}
+			link = new URL(rs.getString(1), rs.getString(2));
+			liste.add(link);
+		}
 //
 //		} catch (SQLException e) {
 //			e.printStackTrace();
@@ -70,19 +70,19 @@ public class EasyLinkDatabaseManager {
 
 	// Atrod linku pēc id(saīsinātā nosaukuma), ja neatrod, tad atgriež tukšu linku
 	public String getLink(String id) throws ClassNotFoundException, SQLException {
-		
+
 		CreateConnection();
 //		try {
 
-			String sql = "SELECT * FROM easylink.easylink WHERE id=?";
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
-			rs = ps.executeQuery();
-			
-			if(rs.next()==true) {
+		String sql = "SELECT * FROM easylink.easylink WHERE id=?";
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, id);
+		rs = ps.executeQuery();
+
+		if (rs.next() == true) {
 
 			return rs.getString(2);
-			}
+		}
 //
 //		} catch (SQLException e) {
 //			e.printStackTrace();
@@ -92,7 +92,7 @@ public class EasyLinkDatabaseManager {
 	}
 
 	// Ieliek datubāzē jauno linku.
-	public boolean insertLink(String id, String full_url) throws ClassNotFoundException{
+	public boolean insertLink(String id, String full_url) throws ClassNotFoundException {
 
 		sql = "INSERT INTO easylink.easylink VALUES(?,?)";
 

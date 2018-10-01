@@ -49,7 +49,8 @@ public class EasyLinkController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/links/{id}")
-	public String getLink(@PathVariable String id, HttpServletResponse httpServletResponse) throws ClassNotFoundException, SQLException {
+	public String getLink(@PathVariable String id, HttpServletResponse httpServletResponse)
+			throws ClassNotFoundException, SQLException {
 
 		if (dbManager.getLink(id) == null) {
 			StringBuilder sb = new StringBuilder();
@@ -62,7 +63,7 @@ public class EasyLinkController {
 			String link = dbManager.getLink(id);
 
 			if (link.length() > 6
-					&& (link.substring(0, 6).equals("http://") || link.substring(0, 7).equals("https://"))) {
+					&& (link.substring(0, 7).equals("http://") || link.substring(0, 8).equals("https://"))) {
 				httpServletResponse.setStatus(302);
 				httpServletResponse.setHeader("Location", link);
 
@@ -70,7 +71,7 @@ public class EasyLinkController {
 
 			} else {
 				httpServletResponse.setStatus(302);
-				httpServletResponse.setHeader("Location", "https://" + link);
+				httpServletResponse.setHeader("Location", "https://" +link);
 
 				return "redirect:" + link;
 			}
@@ -84,14 +85,14 @@ public class EasyLinkController {
 		StringBuilder sb = new StringBuilder();
 		InsertCheck checker = new InsertCheck();
 
-		if(dbManager.insertLink(link.getId(), link.getURL())) {
+		if (dbManager.insertLink(link.getId(), link.getURL())) {
 			sb.append("Link inserted in database!");
 			checker.setResult(true);
-			
-		}else {
+
+		} else {
 			sb.append("Double entry or error");
 			checker.setResult(false);
-		} 
+		}
 
 		return checker;
 

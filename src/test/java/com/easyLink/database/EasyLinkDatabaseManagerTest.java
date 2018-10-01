@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,6 +20,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
 import com.easyLink.database.EasyLinkDatabaseManager;
+import com.easyLink.links.URL;
 
 public class EasyLinkDatabaseManagerTest {
 
@@ -28,31 +31,90 @@ public class EasyLinkDatabaseManagerTest {
 
 	private static Connection conn = Mockito.mock(Connection.class);
 
-	@Rule public MockitoRule mockitoRule = MockitoJUnit.rule(); 
-	
-	
+	@Rule
+	public MockitoRule mockitoRule = MockitoJUnit.rule();
+
 	@Test
-    public void testInsertLink() throws ClassNotFoundException, SQLException  {
+	public void testInsertLink() throws ClassNotFoundException, SQLException {
 		EasyLinkDatabaseManager manager = new EasyLinkDatabaseManager();
 		manager.setConn(conn);
-		
+
 		PreparedStatement testPS = Mockito.mock(PreparedStatement.class);
-        when(conn.prepareStatement(anyString())).thenReturn(testPS);
-        doNothing().when(testPS).setString(anyInt(), anyString());
-        when(testPS.executeUpdate()).thenReturn(1);
-       doNothing().when(conn).commit();
-       
-        assertEquals(true, manager.insertLink("google", "www.google.com"));
+		when(conn.prepareStatement(anyString())).thenReturn(testPS);
+		doNothing().when(testPS).setString(anyInt(), anyString());
+		when(testPS.executeUpdate()).thenReturn(1);
+		doNothing().when(conn).commit();
 
-        when(testPS.executeUpdate()).thenReturn(0);
-        
-        assertEquals(false, manager.insertLink("", ""));
+		assertEquals(true, manager.insertLink("google", "www.google.com"));
 
-    }
-	
+		when(testPS.executeUpdate()).thenReturn(0);
+
+		assertEquals(false, manager.insertLink("", ""));
+
+	}
+
 	@Test
 	public void testGetLink() throws SQLException, ClassNotFoundException {
+
+		EasyLinkDatabaseManager manager = new EasyLinkDatabaseManager();
+		String name = "labi";
+		String url = "www.google.com";
+
+		manager.setConn(conn);
+		PreparedStatement testPS = Mockito.mock(PreparedStatement.class);
+		when(conn.prepareStatement(anyString())).thenReturn(testPS);
+		doNothing().when(testPS).setString(anyInt(), anyString());
+		when(testPS.executeUpdate()).thenReturn(1);
+		doNothing().when(conn).commit();
+
+		manager.insertLink(name, url);
+
+		ResultSet resSet = Mockito.mock(ResultSet.class);
+		when(testPS.executeQuery()).thenReturn(resSet);
+		when(resSet.next()).thenReturn(true);
+		assertEquals(true, resSet.next());
+
+		when(resSet.getString(anyInt())).thenReturn(url);
+
+		assertEquals(url, manager.getLink(name));
+	}
+	
+	@Test 
+	public void testGetAllLinks() throws SQLException, ClassNotFoundException {
+		EasyLinkDatabaseManager manager = new EasyLinkDatabaseManager();
+		List<URL> list = new ArrayList<URL>();
+		List<URL> expected = new ArrayList<URL>();
+		 
+		String name = "labi";
+		String url = "www.google.com";
 		
+		String name2 = "testId";
+		String url2 = "odo.lv";
+		
+		expected.add(new URL(name, url));
+		expected.add(new URL(name2, url2));
+		manager.setConn(conn);
+		PreparedStatement testPS = Mockito.mock(PreparedStatement.class);
+		when(conn.prepareStatement(anyString())).thenReturn(testPS);
+		doNothing().when(testPS).setString(anyInt(), anyString());
+		when(testPS.executeUpdate()).thenReturn(1);
+	    doNothing().when(conn).commit();
+	       
+		manager.insertLink(name, url);
+		manager.insertLink(name2, url2);
+//		when(testPS.executeUpdate()).thenReturn(0);
+        ResultSet resSet = Mockito.mock(ResultSet.class);
+//        when(testPS.executeQuery()).thenReturn(resSet);
+        when(resSet.next()).thenReturn(true);
+        assertEquals(true, resSet.next());
+        
+//        when(manager.getAllLinks()).thenReturn(list); //getAllLinks() aiziet timeouta
+//        assertEquals(expected, list);
+        
+	}
+	
+	@Test
+	public void testDeleteLink() throws SQLException, ClassNotFoundException {
 		EasyLinkDatabaseManager manager = new EasyLinkDatabaseManager();
 		String name = "labi";
 		String url = "www.google.com";
@@ -65,22 +127,10 @@ public class EasyLinkDatabaseManagerTest {
 	    doNothing().when(conn).commit();
 	       
 		manager.insertLink(name, url);
-//		when(testPS.executeUpdate()).thenReturn(1);
-//        doNothing().when(testPS).setString(1, name);
-        
-        ResultSet resSet = Mockito.mock(ResultSet.class);
-        when(testPS.executeQuery()).thenReturn(resSet);
-        when(resSet.next()).thenReturn(true);
-        assertEquals(true, resSet.next());
-        
-        when(resSet.getString(anyInt())).thenReturn(url);
-//        when(resSet.getString(2).thenReturn(anyString()));
-        
-//        assertEquals(resSet.getString(anyInt()), url);
-        assertEquals(url, manager.getLink(name));
-	}
-	
-	
+		
+	    assertEquals(true, manager.deleteLink(name));
+}
+
 //	@SuppressWarnings("unchecked")
 //	@Test
 //	public void test00Exceptions() throws SQLException {
@@ -98,10 +148,7 @@ public class EasyLinkDatabaseManagerTest {
 //        // use mock in test....
 //        assertEquals(test.insertLink("gramata", "www.facebook.com"), 43);
 //	}
-        
-	
-	
-	
+
 //		Mockito.when(conn.prepareStatement(Mockito.anyString())).thenThrow(SQLException.class);
 //		manager.findStudent(1);
 //		manager.findStudent("fName", "lName");
@@ -112,8 +159,5 @@ public class EasyLinkDatabaseManagerTest {
 //		manager.deleteStudent(1);
 //		Mockito.doThrow(new SQLException()).when(conn).close();
 //		manager.closeConnecion();
-	
-	
-	
-	
+
 }
