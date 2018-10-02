@@ -84,7 +84,8 @@ public class EasyLinkController {
 
 		StringBuilder sb = new StringBuilder();
 		InsertCheck checker = new InsertCheck();
-
+		System.out.println("id: "+link.getId());
+		System.out.println("url: "+link.getURL());
 		if (dbManager.insertLink(link.getId(), link.getURL())) {
 			sb.append("Link inserted in database!");
 			checker.setResult(true);

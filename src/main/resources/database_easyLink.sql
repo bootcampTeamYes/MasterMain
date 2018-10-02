@@ -27,8 +27,16 @@ DROP TABLE IF EXISTS `easylink`;
 CREATE TABLE `easylink` (
   `id` varchar(1000) NOT NULL,
   `full_url` varchar(2083) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `username` varchar(2083) NULL,
+  PRIMARY KEY (`id`),
+FOREIGN KEY (username) REFERENCES Registration(username)
+) ;
+CREATE TABLE `Registration` (
+  `username` varchar(1000) NOT NULL,
+  `password` varchar(2083) NOT NULL,
+  `email` varchar(2083) NOT NULL,
+  PRIMARY KEY (`username`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
