@@ -22,16 +22,20 @@ $('#register').click(function() {
 
 	}else {
 
-		if ($('#input-37').val().match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/gm) == null) {
+		if (pass.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/gm) == null ) {
 
         alert("Password must contain at least eight characters containing at least one letter and one number!");
 
     		} else {
-		alert("DONE!");
-			if(pass == pass1){
+    		
+
+			if(pass != pass1){
+			alert("Passwords must match!");
+			}
+			
 
 				        $.ajax({
-				            url: 'http://localhost:8080/links',
+				            url: 'http://localhost:8080/register',
 				            type: "POST",
 				            data: JSON.stringify(data),
 				            contentType: "application/json; charset=utf-8",
@@ -39,7 +43,7 @@ $('#register').click(function() {
 				            success: function(d) {
 				
 				                if (d.result) {
-				                    alert("Link shortened! Find it at: localhost:8080/links/" + name);
+				                    alert("Thanks for registering!");
 				
 				                } else {
 				                    alert("Registration not successfull!");
@@ -47,7 +51,7 @@ $('#register').click(function() {
 				            }
       					  });
 				}
-			}
+			
 		}
 	}
    }

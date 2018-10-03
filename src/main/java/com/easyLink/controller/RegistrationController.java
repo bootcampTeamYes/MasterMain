@@ -1,10 +1,11 @@
-/*package com.easyLink.controller;
+package com.easyLink.controller;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,36 +36,10 @@ public class RegistrationController {
 		return dbManager.getAllRegistrations();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/{username}")
-	public String getRegistration(@PathVariable String username, HttpServletResponse httpServletResponse)
+	@RequestMapping(method = RequestMethod.GET, value = "/user/{username}")
+	public Registration getRegistration(@PathVariable String username, HttpServletResponse httpServletResponse)
 			throws ClassNotFoundException, SQLException {
 
-		if (dbManager.getRegistration(username) == null) {
-			StringBuilder sb = new StringBuilder();
-
-			sb.append("Wrong entry! Try again<br/>\n");
-
-			return sb.toString();
-		} else {
-
-			Registration link = dbManager.getRegistration(username);
-
-			StringBuilder sb = new StringBuilder();
-
-			sb.append("<form action=''>\n");
-			sb.append("Name: <input type='text' name='name' value=''><br/>\n");
-			sb.append("Surname:<input type='text' name='surname' value=''><br/>\n");
-			sb.append("<input type='submit' value='Find'><br/>\n");
-
-			return sb.toString();
-
-		}
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/{username}/links")
-	public Set<URL>  getRegistrationLinks(@PathVariable String username, HttpServletResponse httpServletResponse)
-			throws ClassNotFoundException, SQLException {
-		
 		if (dbManager.getRegistration(username) == null) {
 			StringBuilder sb = new StringBuilder();
 
@@ -74,10 +49,33 @@ public class RegistrationController {
 		} else {
 
 			Registration link = dbManager.getRegistration(username);
+			for( URL item : dbManager.getRegistrationLinks(username)) {
+				link.addToList(item);
+			}
 
+			return link;
+
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/{username}/links")
+	public Set<URL>  getRegistrationLinks(@PathVariable(value="username") String username, HttpServletResponse httpServletResponse)
+			throws ClassNotFoundException, SQLException {
+		
+		System.out.println("Registration name: "+username);
+		if (dbManager.getRegistration(username) == null) {
 			StringBuilder sb = new StringBuilder();
 
-			return link.getList();
+			sb.append("Wrong entry! Try again<br/>\n");
+
+			return null;
+		} else {
+			System.out.println("ieiet elsa meklet");
+//			Registration link = dbManager.getRegistrationLinks(username);
+//
+//			StringBuilder sb = new StringBuilder();
+
+			return dbManager.getRegistrationLinks(username);
 				
 //			sb.append("<form action=''>\n");
 //			sb.append("Name: <input type='text' name='name' value=''><br/>\n");
@@ -90,13 +88,15 @@ public class RegistrationController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{username}/links")
-	public InsertCheck addLink(@RequestBody URL link) throws ClassNotFoundException, SQLException {
+	public InsertCheck addLink(@RequestBody URL link, @PathVariable(value = "username") String username) throws ClassNotFoundException, SQLException {
 
 		EasyLinkDatabaseManager manager = new EasyLinkDatabaseManager();
 		StringBuilder sb = new StringBuilder();
 		InsertCheck checker = new InsertCheck();
 
-		if (manager.insertLink(link.getId(), link.getURL())) {
+		System.out.println("username: "+username);
+		if (manager.insertLink(link.getId(), link.getURL(), username)) {
+			
 			sb.append("Link inserted in database!");
 			checker.setResult(true);
 
@@ -115,7 +115,7 @@ public class RegistrationController {
 //			@RequestParam(value = "password", required = true) String password,
 //			@RequestParam(value = "email", required = true) String email,
 //			@RequestParam(value = "id", required = true) String id,
-//			@RequestParam(value = "link", required = true) String link) 
+//			@RequestParam(value = "link", required = true) String link)  
 					throws ClassNotFoundException, SQLException {
 
 		StringBuilder sb = new StringBuilder();
@@ -132,7 +132,7 @@ public class RegistrationController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+	@RequestMapping(method = RequestMethod.DELETE, value = "/{username}/links/{id}")
 	public String deleteRegistration(@PathVariable String id) {
 		StringBuilder sb = new StringBuilder();
 		boolean result = false;
@@ -153,4 +153,3 @@ public class RegistrationController {
 
 	}
 }
-*/

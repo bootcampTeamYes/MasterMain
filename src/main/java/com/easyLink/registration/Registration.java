@@ -17,7 +17,7 @@ import com.easyLink.links.URL;
 public class Registration {
 
 		@Id
-		@GeneratedValue(strategy = GenerationType.AUTO)   //makes new object Link in database ??
+		@GeneratedValue(strategy = GenerationType.AUTO)   //makes new object Link in database ?? 
 		private String username;
 		private String password;
 		private String email;

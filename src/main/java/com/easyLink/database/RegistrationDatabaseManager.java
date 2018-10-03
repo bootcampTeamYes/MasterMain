@@ -1,15 +1,23 @@
 package com.easyLink.database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.easyLink.links.URL;
+import com.easyLink.registration.Registration;
 
 @Service
-public class EasyLinkDatabaseManager {
+public class RegistrationDatabaseManager {
+
 	URL link = new URL();
 	PreparedStatement ps;
 	ResultSet rs;
@@ -39,18 +47,18 @@ public class EasyLinkDatabaseManager {
 	}
 
 	// Printē visus linkus
-	public List<URL> getAllLinks() throws ClassNotFoundException, SQLException {
+	public List<Registration> getAllRegistrations() throws ClassNotFoundException, SQLException {
 
 		CreateConnection();
 
-		List<URL> liste = new ArrayList<URL>();
-		String sql = "SELECT * FROM easylink.easylink";
+		List<Registration> liste = new ArrayList<Registration>();
+		String sql = "SELECT * FROM easylink.Registration";
 
 		ps = conn.prepareStatement(sql);
 		rs = ps.executeQuery();
 		while (rs.next()) {
 
-			link = new URL(rs.getString(1), rs.getString(2));
+			Registration link = new Registration(rs.getString(1), rs.getString(2), rs.getString(3));
 			liste.add(link);
 		}
 
@@ -58,59 +66,53 @@ public class EasyLinkDatabaseManager {
 	}
 
 	// Atrod linku pēc id(saīsinātā nosaukuma), ja neatrod, tad atgriež tukšu linku
-	public String getLink(String id) throws ClassNotFoundException, SQLException {
+	public Registration getRegistration(String username) throws ClassNotFoundException, SQLException {
 
 		CreateConnection();
 
-		String sql = "SELECT * FROM easylink.easylink WHERE id=?";
+		String sql = "SELECT * FROM easylink.Registration WHERE username=?";
 		ps = conn.prepareStatement(sql);
-		ps.setString(1, id);
+		ps.setString(1, username);
 		rs = ps.executeQuery();
 
 		if (rs.next() == true) {
 
-			return rs.getString(2);
+			return new Registration(rs.getString(1), rs.getString(2), rs.getString(3));
 		}
 
-		return "You`re not lucky. No link found for such Id :(";
+		return null;
+	}
+	
+	public Set<URL> getRegistrationLinks(String username) throws ClassNotFoundException, SQLException {
+
+		CreateConnection();
+		Set<URL> liste = new HashSet<>();
+		
+		String sql = "SELECT * FROM easylink.easylink WHERE username=?";
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, username);
+		rs = ps.executeQuery();
+
+		while (rs.next()) {
+			String id = rs.getString(1);
+	        String url = rs.getString(2);
+			 liste.add(new URL(id, url));
+		}
+
+		return liste;
 	}
 
 	// Ieliek datubāzē jauno linku.
-	public boolean insertLink(String id, String full_url) throws ClassNotFoundException {
+	public boolean insertRegistration(String username, String password, String email) throws ClassNotFoundException {
 
-		sql = "INSERT INTO easylink.easylink VALUES(?,?,?)";
-
-		try {
-			CreateConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
-			ps.setString(2, full_url);
-			ps.setString(3,  null);
-
-			int res = ps.executeUpdate();
-
-			if (res == 0) {
-				return false;
-			}
-			conn.commit();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-		return true;
-	}
-	
-	public boolean insertLink(String id, String full_url, String username) throws ClassNotFoundException {
-
-		sql = "INSERT INTO easylink.easylink VALUES(?,?,?)";
+		sql = "INSERT INTO easylink.Registration VALUES(?,?,?)";
 
 		try {
 			CreateConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
-			ps.setString(2, full_url);
-			ps.setString(3, username);
+			ps.setString(1, username);
+			ps.setString(2, password);
+			ps.setString(3, email);
 
 			int res = ps.executeUpdate();
 
@@ -128,7 +130,7 @@ public class EasyLinkDatabaseManager {
 
 	// Ja atrod duplikatu, tad izmet false.
 	public boolean checkDuplicateID(String id) {
-		sql = "SELECT id FROM easylink.easylink WHERE id=?";
+		sql = "SELECT id FROM easylink.Registration WHERE id=?";
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, id);
@@ -144,8 +146,8 @@ public class EasyLinkDatabaseManager {
 		return false;
 	}
 
-	public boolean deleteLink(String id) {
-		// TODO #7 Write an sql statement that deletes teacher from database.
+	public boolean deleteRegistration(String id) {
+		// TODO #7 Write an sql statement that deletes teacher from database. 
 		boolean status = false;
 		sql = "DELETE FROM easylink.easylink WHERE id = ?";
 
