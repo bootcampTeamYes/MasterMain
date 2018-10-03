@@ -30,6 +30,10 @@ public class Registration {
 		public Registration() {
 
 		}
+	
+		public Registration(String username){
+			this.username=username;	
+		}
 
 		public Registration(String username, String password, String email) {
 			this.username = username;
