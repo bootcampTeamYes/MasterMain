@@ -71,18 +71,8 @@ public class RegistrationController {
 			return null;
 		} else {
 			System.out.println("ieiet elsa meklet");
-//			Registration link = dbManager.getRegistrationLinks(username);
-//
-//			StringBuilder sb = new StringBuilder();
 
 			return dbManager.getRegistrationLinks(username);
-				
-//			sb.append("<form action=''>\n");
-//			sb.append("Name: <input type='text' name='name' value=''><br/>\n");
-//			sb.append("Surname:<input type='text' name='surname' value=''><br/>\n");
-//			sb.append("<input type='submit' value='Find'><br/>\n");
-//
-//			return sb.toString();
 
 		}
 	}
