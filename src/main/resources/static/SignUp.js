@@ -9,11 +9,11 @@ $('#register').click(function() {
 	password: $('#input-37').val(),
     };
 
-    if ($('#input-35').val().match(/^[a-z0-9_-]{3,15}$/gm) == null) {
+    if ($('#input-35').val().match(/^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]*$/gm) == null) {
 
 
         alert("Username is not valid!");
-
+	windows.location = ("SignUp.html");
     } else {
 
 	 if ($('#input-36').val().match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}/gm) == null) { 
@@ -44,7 +44,7 @@ $('#register').click(function() {
 				
 				                if (d.result) {
 				                    alert("Thanks for registering!");
-				
+						windows.locaction = ("SignUp.html");
 				                } else {
 				                    alert("Registration not successfull!");
 				                }

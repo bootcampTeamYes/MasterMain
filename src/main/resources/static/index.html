@@ -1,27 +1,31 @@
-<!--  <%= stylesheet_link_tag "/" %>  -->
-<link rel="stylesheet" type="text/css" href="welcome.css">
+<link rel="stylesheet" type="text/css" href="welcome2.css">
 <link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Roboto:500,900,100,300,700,400' rel='stylesheet' type='text/css'>
+
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <header class="v-header container">
+
+
     <div class="fullscreen-video-wrap">
-      <video src="https://staging.coverr.co/s3/mp4/Up.mp4" autoplay="true" loop="true" muted>
+      <video src="https://storage.googleapis.com/coverr-main/mp4/Candolim-Beach.mp4" autoplay="true" loop="true" muted>
     </video>
     </div>
     <div class="header-overlay"></div>
     <div class="header-content text-md-center">
-      <h1>EasyLink the best link shortener on the market</h1>
+      <h1>Welcome to the best link shortener on the market</h1>
       <p>Enter a link and press "Shorten" to shorten your link</p>
-      <a class="btnmain" id="save-URL">Shorten</a>
-      <!--  	<%= link_to '/links', new_welcome_path, remote: true%> 	-->
+	   
+	  <div class="row">
+	  <div> <a href="#" class="btn btn-sm animated-button victoria-one" id="save-URL">Shorten</a> </div>
 
       
       <div class = "class1" >
       <span class="input input--kaede">
           <input class="input__field input__field--kaede" type="text" id="input-35" />
           <label class="input__label input__label--kaede" for="input-35">
-              <span class="input__label-content input__label-content--kaede">Your link</span>
+              <span class="input__label-content input__label-content--kaede">Long URL</span>
           </label>
       </span>
       </div>
@@ -30,7 +34,7 @@
       <span class="input input--kaede">
           <input class="input__field input__field--kaede" type="text" id="input-36" />
           <label class="input__label input__label--kaede" for="input-36">
-              <span class="input__label-content input__label-content--kaede">EasyLink ID</span>
+              <span class="input__label-content input__label-content--kaede">Short URL</span>
           </label>
       </span>
       </div>
@@ -38,21 +42,58 @@
     </div>
   </header>
 
-<body>
+
+
+<!-- Menu bar -->
+<section>
+  <nav class="circle">
+    <ul>
+      <div class = "left">
+	  <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+	  <li><a href="#">!!!My Lists!!!</a></li>
+	  </div>
+	  <div class = "right">
+      <li><a onclick="document.getElementById('id01').style.display='block'">Register</a></li>
+			<!-- Registration pop-up form  -->
+			<div id="id01" class="modal">
+			  <span onclick="document.getElementById('id01').style.display='none'" 
+			class="close" title="Close">&times;</span>
+
+			  <!-- Registration form content -->
+			  <form class="modal-content animate">
+
+				<div class="container">
+				  <label for="uname"><b>Username</b></label>
+				  <input type="text" placeholder="Enter Username" name="uname" id="input-35" required>
+				  
+				  <label for="email"><b>Email</b></label>
+				  <input type="text" placeholder="Enter Email" name="email" id="input-36" required>
+
+				  <label for="psw"><b>Password</b></label>
+				  <input type="password" placeholder="Enter Password" name="psw" id="input-37" required>
+				  
+				  <label for="psw_repeat"><b>Repeat Password</b></label>
+				  <input type="password" placeholder="Repeat Password" name="psw_repeat" id="input-38" required>
+
+				  <div> <a href="#" class="register_button" id="register">Register</a></div>
+				  
+				</div>
+
+				<div class="container">
+				  <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+				</div>
+			  </form>
+			</div>
+	  <li><a href="#">Login</a></li>
+	  </div>
+    </ul>
+	
+
+	
+  </nav>
+  </section>
+
+	<body>
   <script type="text/javascript" src="index.js"></script>
 </body>
-
-  <section class="section blackBar">
-  <div class="container">
-  <h1>EasyLink</h1>
-    <a href="kods2.html" class="btnlogin">Login</a>
-    <a href="kods.html" class="btnsignup">Sign up</a>
-  </div>
-  </section>
-
-  <section class="section section-a">
-    <div class="container">
-      <h2>Pls donate</h2>
-      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde, impedit amet minima iste autem cumque et maiores blanditiis doloribus aut dolorum quaerat non est voluptatum, tempore ut dolorem voluptas quod quae accusantium, ex inventore ducimus. Beatae mollitia exercitationem, quam similique, consectetur ratione reprehenderit delectus neque eligendi facere soluta dolor ducimus!</p>
-    </div>
-  </section>

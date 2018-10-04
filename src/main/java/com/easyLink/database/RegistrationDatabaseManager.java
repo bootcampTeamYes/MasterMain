@@ -101,6 +101,23 @@ public class RegistrationDatabaseManager {
 
 		return liste;
 	}
+	
+	public String getRegistrationLink(String id) throws ClassNotFoundException, SQLException {
+
+		CreateConnection();
+		
+		String sql = "SELECT * FROM easylink.easylink WHERE id=?";
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, id);
+		rs = ps.executeQuery();
+
+		while (rs.next()) {
+
+	       	return rs.getString(2);
+		}
+
+		return "Link not found";
+	}
 
 	// Ieliek datubāzē jauno linku.
 	public boolean insertRegistration(String username, String password, String email) throws ClassNotFoundException {
