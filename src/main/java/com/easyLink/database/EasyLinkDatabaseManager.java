@@ -86,6 +86,23 @@ public class EasyLinkDatabaseManager {
 		return "You`re not lucky. No link found for such Id :(";
 	}
 
+	public String getPassword(String username) throws ClassNotFoundException, SQLException {
+
+		CreateConnection();
+
+		String sql = "SELECT password FROM easylink.Registration WHERE username=?";
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, username);
+		rs = ps.executeQuery();
+
+		if (rs.next() == true) {
+
+			return rs.getString(1);
+		}
+
+		return "You`re not lucky. No password found for such user :(";
+	}
+	
 	// Ieliek datubāzē jauno linku.
 	public boolean insertLink(String id, String full_url) throws ClassNotFoundException {
 
@@ -155,14 +172,14 @@ public class EasyLinkDatabaseManager {
 		return false;
 	}
 
-	public boolean deleteLink(String id) {
+	public boolean deleteLink(String id) throws ClassNotFoundException, SQLException {
 		// TODO #7 Write an sql statement that deletes teacher from database.
 		boolean status = false;
 		sql = "DELETE FROM easylink.easylink WHERE id = ?";
 
 		int result = 0;
-		try {
 
+			CreateConnection();
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, id);
 
@@ -171,15 +188,11 @@ public class EasyLinkDatabaseManager {
 				return false;
 			}
 			conn.commit();
-		} catch (SQLException e) {
 
-			e.printStackTrace();
 
-		} finally {
 			if (result != 0) {
 				status = true;
 			}
-		}
 		return status;
 	}
 }

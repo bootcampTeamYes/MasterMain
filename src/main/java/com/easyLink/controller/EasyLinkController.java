@@ -104,8 +104,7 @@ public class EasyLinkController {
 
 		StringBuilder sb = new StringBuilder();
 		InsertCheck checker = new InsertCheck();
-		System.out.println("id: "+link.getId());
-		System.out.println("url: "+link.getURL());
+
 		if (dbManager.insertLink(link.getId(), link.getURL(), null)) {
 			sb.append("Link inserted in database!");
 			checker.setResult(true);
@@ -120,7 +119,7 @@ public class EasyLinkController {
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/links/{id}")
-	public String deleteLink(@PathVariable String id) {
+	public String deleteLink(@PathVariable String id) throws ClassNotFoundException, SQLException {
 		StringBuilder sb = new StringBuilder();
 		boolean result = false;
 		result = dbManager.deleteLink(id);

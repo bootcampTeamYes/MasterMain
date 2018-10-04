@@ -1,6 +1,7 @@
 package com.easyLink.controller;
 
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +21,8 @@ import com.easyLink.database.InsertCheck;
 import com.easyLink.database.RegistrationDatabaseManager;
 import com.easyLink.links.URL;
 import com.easyLink.registration.Registration;
+
+import login.Login;
 
 
 @RestController
@@ -57,12 +60,29 @@ public class RegistrationController {
 
 		}
 	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/user/{username}")
+	public boolean getCheckPassword(@RequestBody Login login, HttpServletResponse httpServletResponse,
+	@PathVariable(value="username") String username)
+			throws ClassNotFoundException, SQLException {
+
+		EasyLinkDatabaseManager manager = new EasyLinkDatabaseManager();
+//		System.out.println("username: "+login.getUsername()==username);
+//		System.out.println("password: "+manager.getPassword(username));
+//		if (login.getUsername()==manager.) { 
+
+			if(login.getPassword().equals(manager.getPassword(login.getUsername()))) {
+				return true;
+//			}
+			
+		}
+		return false;
+	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{username}/links")
 	public Set<URL>  getRegistrationLinks(@PathVariable(value="username") String username, HttpServletResponse httpServletResponse)
 			throws ClassNotFoundException, SQLException {
 		
-		System.out.println("Registration name: "+username);
 		if (dbManager.getRegistration(username) == null) {
 			StringBuilder sb = new StringBuilder();
 
@@ -70,7 +90,6 @@ public class RegistrationController {
 
 			return null;
 		} else {
-			System.out.println("ieiet elsa meklet");
 
 			return dbManager.getRegistrationLinks(username);
 
@@ -81,22 +100,48 @@ public class RegistrationController {
 	public InsertCheck addLink(@RequestBody URL link, @PathVariable(value = "username") String username) throws ClassNotFoundException, SQLException {
 
 		EasyLinkDatabaseManager manager = new EasyLinkDatabaseManager();
-		StringBuilder sb = new StringBuilder();
 		InsertCheck checker = new InsertCheck();
 
-		System.out.println("username: "+username);
 		if (manager.insertLink(link.getId(), link.getURL(), username)) {
-			
-			sb.append("Link inserted in database!");
+
 			checker.setResult(true);
 
 		} else {
-			sb.append("Double entry or error");
 			checker.setResult(false);
 		}
 
 		return checker;
+	}
+	
+	@RequestMapping(method = RequestMethod.PATCH, value = "/{username}/links/{id}")
+	public InsertCheck editLink(@RequestBody URL link, @PathVariable(value = "username") String username, @PathVariable(value = "id") String id) throws ClassNotFoundException, SQLException {
 
+		RegistrationDatabaseManager manager = new RegistrationDatabaseManager();
+		EasyLinkDatabaseManager linkManager = new EasyLinkDatabaseManager();
+		
+		InsertCheck checker = new InsertCheck();
+		
+		Set<URL> list = new HashSet<>();
+		System.out.println("id ir: "+id);
+
+		for(URL item : manager.getRegistrationLinks(username)) {
+
+			if(id.equals(item.getId())) {
+
+				if (linkManager.deleteLink(id)) {
+					System.out.println("izdzesa linku");
+					linkManager.insertLink(link.getId(), link.getURL(), username);
+
+					checker.setResult(true);
+
+				} else {
+					System.out.println("delete ir false");
+					checker.setResult(false);
+				}
+			}
+			checker.setResult(false);
+		}
+		return checker;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/register")
