@@ -9,7 +9,7 @@ import javax.persistence.Id;
 public class URL{
 
 	@Id
-//	@GeneratedValue(strategy = GenerationType.AUTO)   //makes new object Link in database ??
+//	@GeneratedValue(strategy = GenerationType.AUTO)   //makes new object Link in database 
 	private String id;
 	private String url;
 

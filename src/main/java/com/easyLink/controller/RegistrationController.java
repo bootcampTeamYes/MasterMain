@@ -57,7 +57,6 @@ public class RegistrationController {
 			}
 
 			return link;
-
 		}
 	}
 	
@@ -67,14 +66,9 @@ public class RegistrationController {
 			throws ClassNotFoundException, SQLException {
 
 		EasyLinkDatabaseManager manager = new EasyLinkDatabaseManager();
-//		System.out.println("username: "+login.getUsername()==username);
-//		System.out.println("password: "+manager.getPassword(username));
-//		if (login.getUsername()==manager.) { 
 
 			if(login.getPassword().equals(manager.getPassword(login.getUsername()))) {
 				return true;
-//			}
-			
 		}
 		return false;
 	}
@@ -86,13 +80,44 @@ public class RegistrationController {
 		if (dbManager.getRegistration(username) == null) {
 			StringBuilder sb = new StringBuilder();
 
-			sb.append("Wrong entry! Try again<br/>\n");
+			sb.append("Wrong entry! Try again<br/>\n"); 
 
 			return null;
 		} else {
-
 			return dbManager.getRegistrationLinks(username);
 
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/{username}/links/{id}")
+	public String getRegistrationLink(@PathVariable(value="username") String username, 
+			@PathVariable String id, HttpServletResponse httpServletResponse)
+			throws ClassNotFoundException, SQLException {
+		
+		if (dbManager.getRegistration(username) == null) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Wrong entry! Try again<br/>\n");
+ 
+			return null;
+		} else {
+			String newId = "("+username+")"+id;
+
+			String link = dbManager.getRegistrationLink(newId);
+
+			if (link.length() > 6
+					&& (link.substring(0, 7).equals("http://") || link.substring(0, 8).equals("https://"))) {
+				httpServletResponse.setStatus(302);
+				httpServletResponse.setHeader("Location", link);
+
+				return "redirect:" + link;
+
+			} else {
+				httpServletResponse.setStatus(302);
+				httpServletResponse.setHeader("Location", "https://" +link);
+
+				return "redirect:" + link;
+			}
 		}
 	}
 	
@@ -102,7 +127,7 @@ public class RegistrationController {
 		EasyLinkDatabaseManager manager = new EasyLinkDatabaseManager();
 		InsertCheck checker = new InsertCheck();
 
-		if (manager.insertLink(link.getId(), link.getURL(), username)) {
+		if (manager.insertLink("("+username+")"+link.getId(), link.getURL(), username)) {
 
 			checker.setResult(true);
 
@@ -122,20 +147,18 @@ public class RegistrationController {
 		InsertCheck checker = new InsertCheck();
 		
 		Set<URL> list = new HashSet<>();
-		System.out.println("id ir: "+id);
 
 		for(URL item : manager.getRegistrationLinks(username)) {
 
 			if(id.equals(item.getId())) {
 
 				if (linkManager.deleteLink(id)) {
-					System.out.println("izdzesa linku");
+
 					linkManager.insertLink(link.getId(), link.getURL(), username);
 
 					checker.setResult(true);
 
 				} else {
-					System.out.println("delete ir false");
 					checker.setResult(false);
 				}
 			}
@@ -146,11 +169,7 @@ public class RegistrationController {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/register")
 	public InsertCheck addRegistration(@RequestBody Registration registration)
-//	(@RequestParam(value = "username", required = true) String username, 
-//			@RequestParam(value = "password", required = true) String password,
-//			@RequestParam(value = "email", required = true) String email,
-//			@RequestParam(value = "id", required = true) String id,
-//			@RequestParam(value = "link", required = true) String link)  
+
 					throws ClassNotFoundException, SQLException {
 
 		StringBuilder sb = new StringBuilder();

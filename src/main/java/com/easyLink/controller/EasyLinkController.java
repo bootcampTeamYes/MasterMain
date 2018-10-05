@@ -58,9 +58,6 @@ public class EasyLinkController {
 	@Autowired
 	private EasyLinkDatabaseManager dbManager;
 
-//	@Autowired
-//	private RegistrationService regService;
-
 	@RequestMapping("/links")
 	public List<URL> getAllLinks() throws ClassNotFoundException, SQLException {
 
@@ -113,9 +110,8 @@ public class EasyLinkController {
 			sb.append("Double entry or error");
 			checker.setResult(false);
 		}
-
+ 
 		return checker;
-
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/links/{id}")

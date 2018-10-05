@@ -44,7 +44,7 @@ $('#register').click(function() {
 				
 				                if (d.result) {
 				                    alert("Thanks for registering!");
-                                    window.location = 'http://localhost:8080/';
+						windows.locaction = ("SignUp.html");
 				                } else {
 				                    alert("Registration not successfull!");
 				                }
@@ -56,7 +56,3 @@ $('#register').click(function() {
 	}
    }
 );
-
-
-
-
