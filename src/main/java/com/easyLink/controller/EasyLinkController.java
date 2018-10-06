@@ -77,7 +77,6 @@ public class EasyLinkController {
 
 				return "redirect:" + link;
 			}
-
 		}
 	}
 

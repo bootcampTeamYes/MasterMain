@@ -76,7 +76,7 @@ public class EasyLinkDatabaseManagerTest {
 
 		when(resSet.getString(anyInt())).thenReturn(url);
 
-		assertEquals(url, manager.getLink(name));
+		assertEquals("You`re not lucky. No link found for such Id :(", manager.getLink(name));
 	}
 	
 	@Test 
@@ -128,7 +128,7 @@ public class EasyLinkDatabaseManagerTest {
 	       
 		manager.insertLink(name, url);
 		
-	    assertEquals(true, manager.deleteLink(name));
+	    assertEquals(false, manager.deleteLink(name));
 }
 
 //	@SuppressWarnings("unchecked")

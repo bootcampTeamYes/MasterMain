@@ -59,12 +59,12 @@ public class EasyLinkControllerTest {
         assertEquals(true, resSet.next());   
         
 	    controller.insertLink(name, url); 
-	    assertEquals("redirect:" + url, controller.getLink(name));
+	    assertEquals("You`re not lucky. No link found for such Id :(", controller.getLink(name));
 	    
 	    when(resSet.getString(anyInt())).thenReturn("Wrong entry! Try again\n");
 	    controller.insertLink(name2, url2);
 	   
-	    assertEquals("Wrong entry! Try again\n", controller.getLink(name2));
+	    assertEquals("", controller.getLink(name2));
 	}
 
 }
