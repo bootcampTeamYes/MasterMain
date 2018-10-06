@@ -8,6 +8,17 @@ import org.springframework.stereotype.Service;
 
 import com.easyLink.links.URL;
 
+/**
+ * This class create connection with databse and provide methods to work with it.
+ * In fields USERNAME, PASSWORD and CONN_STRING put corresponding information about database maintenance tool you are working with.
+ * And if connection with database established,
+ *  - method getAllLinks() return all records from database
+ *  - method getLink(*id*) return full url address
+ *  - method
+ *
+ * @author Kristaps, Raivis, Martins, Arturs
+ */
+
 @Service
 public class EasyLinkDatabaseManager {
 	URL link = new URL();

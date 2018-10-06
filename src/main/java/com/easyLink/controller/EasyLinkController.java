@@ -7,30 +7,35 @@ import java.util.List;
 //import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.WebRequest;
-
 import com.easyLink.database.EasyLinkDatabaseManager;
 import com.easyLink.database.InsertCheck;
 import com.easyLink.links.URL;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//
-//import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+/**
+ * This is web controller for our application. It handles HTTP requests. If you enter "http://localhost:8080/links/" in Web Browser address bar,
+ * you will see what currently database stores.
+ * Example:    (JSON)
+ * {
+ * ..
+ * {
+ * "id": name for link given by user,
+ * "full_url": links full address,
+ * },
+ * ..
+ * }
+ * For our API, you can try tool, such as the Firefox RESTClient, or Chrome's POSTMAN to test the REST integration.
+ * Using them you can check mapping for HTTP GET requests, add new urls in database with HTTP POST, or DELETE some records from database.
+ * To GET, POST or DELETE something you must choose in corresponded request method in REST integration testing tool
+ * and enter following address "http://localhost:8080/links/{id}" where {id} is needed links name.
+ *
+ * @author Kristaps, Raivis, Martins, Arturs
+ */
 
 @RestController
 public class EasyLinkController {

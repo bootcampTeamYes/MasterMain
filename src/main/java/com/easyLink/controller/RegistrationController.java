@@ -58,10 +58,9 @@ public class RegistrationController {
 			for( URL item : dbManager.getRegistrationLinks(username)) {
 				link.addToList(item);
 			}
-
 			return link;
 		}
-	}
+	} 
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/pass/{username}")
 	public boolean getCheckPassword(@RequestBody Login login, HttpServletResponse httpServletResponse,

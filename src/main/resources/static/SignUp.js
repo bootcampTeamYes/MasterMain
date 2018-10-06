@@ -3,6 +3,7 @@ window.onload = readCookie;
 
 window.onload = setUser;
 var value = readCookie("cepums");
+console.log("vertiba ir: "+value);
 var link = 'http://localhost:8080/'+value+'/links';
 
 
@@ -15,6 +16,7 @@ window.location.assign("http://localhost:8080");
 
 
 ////////////////////////////////////////////////////////////////////////////
+
 
 
 $('#save-Reg-URL').click(function() {
@@ -31,7 +33,7 @@ $('#save-Reg-URL').click(function() {
         alert("Link not valid!");
 
     } else {
-
+	console.log("links ir: "+link);
         $.ajax({
             url: link,
             type: "POST",
@@ -47,9 +49,7 @@ $('#save-Reg-URL').click(function() {
                     alert("Id already exists. Please choose another Id");
                 }
             }
-        });
-
-
+        })
     }
 });
 
@@ -94,10 +94,8 @@ function eraseCookie(name) {
         document.getElementById('usernameText').text = names;
       }
       
-      
-      
-    /*
-      
+
+    
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -122,4 +120,3 @@ function checkCookie() {
         
     }
 }
-*/
