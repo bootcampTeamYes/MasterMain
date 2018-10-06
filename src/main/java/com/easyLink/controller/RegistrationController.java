@@ -84,6 +84,7 @@ public class RegistrationController {
 
 			return null;
 		} else {
+
 			return dbManager.getRegistrationLinks(username);
 
 		}
@@ -126,7 +127,6 @@ public class RegistrationController {
 
 		EasyLinkDatabaseManager manager = new EasyLinkDatabaseManager();
 		InsertCheck checker = new InsertCheck();
-
 		if (manager.insertLink("("+username+")"+link.getId(), link.getURL(), username)) {
 
 			checker.setResult(true);
@@ -186,14 +186,14 @@ public class RegistrationController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, value = "/{username}/links/{id}")
-	public String deleteRegistration(@PathVariable String id) {
+	@RequestMapping(method = RequestMethod.DELETE, value = "/user/{username}")
+	public String deleteRegistration(@PathVariable String username) throws ClassNotFoundException, SQLException {
 		StringBuilder sb = new StringBuilder();
 		boolean result = false;
-		result = dbManager.deleteRegistration(id);
+		result = dbManager.deleteRegistration(username);
 
 		if (result) {
-			sb.append("true<br/>\n");
+			sb.append("true<br/>\n");  
 			sb.append("<a href='/links'>Back</a>\n");
 
 			return sb.toString();

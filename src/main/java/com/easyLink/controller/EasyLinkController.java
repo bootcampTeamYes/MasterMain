@@ -106,67 +106,12 @@ public class EasyLinkController {
 
 			return sb.toString();
 
-		} else {
+		} else { 
 			sb.append("false<br/>\n");
 			sb.append("<a href='/links'>Back</a>\n");
 
 			return sb.toString();
 		}
-
+ 
 	}
 }
-
-//	//registracijas metodes
-
-//	@RequestMapping(value = "/user/registration", method = RequestMethod.GET)
-//	public String showRegistrationForm(WebRequest request, Model model) {
-//	    Registration user = new Registration();
-//	    model.addAttribute(user.getUsername(), user);
-//	    return "registration";
-//	}
-
-/*
- * //method for saving registered user // @RequestMapping(method =
- * RequestMethod.POST, value = "/user") // public String saveUser(@RequestParam
- * String username, @RequestParam String password, @RequestParam String email )
- * { // Registration user = new Registration(username, password, email); //
- * regService.saveRegistration(user); // return "User saved!"; // } //
- * // @RequestMapping(method = RequestMethod.GET, value = "/users")
- * //// @ResponseBody // public String getUsers(@RequestBody URL link) { //
- * StringBuilder sb = new StringBuilder(); // dbManager = new
- * EasyLink_DatabaseManager(); // // return regService. //// } // //}
- * 
- * 
- * //method to addlink to registered User
- * 
- * @RequestMapping(method = RequestMethod.POST, value = "/user/links") public
- * String addLinktoUser(@RequestBody URL link) { StringBuilder sb = new
- * StringBuilder(); Registration reg = new Registration();
- * 
- * reg.addToList(new URL(link.getId(), link.getURL())); //
- * dbManager.insertLink(link.getId(), link.getURL()); // linkManager.addLink(id,
- * URL); // response.setStatus(HttpServletResponse.SC_OK);
- * sb.append("true<br/>\n"); sb.append("<a href='/links'>Back</a>\n");
- * 
- * return sb.toString(); // }
- * 
- * }
- * 
- * @RequestMapping(method = RequestMethod.GET, value = "/links/{id}") public
- * String getUserLink(@PathVariable String id, HttpServletResponse
- * httpServletResponse) {
- * 
- * if(dbManager.getLink(id)==null) { StringBuilder sb = new StringBuilder();
- * 
- * sb.append("Wrong entry! Try again<br/>\n");
- * sb.append("<a href='/links'>Back</a>\n");
- * 
- * return sb.toString(); }else {
- * 
- * httpServletResponse.setStatus(302); httpServletResponse.setHeader("Location",
- * "http://"+dbManager.getLink(id));
- * 
- * return "redirect:" + dbManager.getLink(id); }
- * 
- * } }
- */
