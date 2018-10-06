@@ -14,7 +14,7 @@
     </div>
     <div class="header-overlay"></div>
     <div class="header-content text-md-center">
-      <h1>Welcome to the best link shortener on the market</h1>
+      <h1>EasyLink: the best link shortener on the market</h1>
       <p>Enter a link and press "Shorten" to shorten your link</p>
 	   
 	  <div class="row">
@@ -49,9 +49,8 @@
   <nav class="circle">
     <ul>
       <div class = "left">
-	  <li><a href="#">Home</a></li>
+	  <li><a href="/">Home</a></li>
       <li><a href="#">About</a></li>
-	  <li><a href="#">!!!My Lists!!!</a></li>
 	  </div>
 	  <div class = "right">
       <li><a onclick="document.getElementById('id01').style.display='block'">Register</a></li>
@@ -65,18 +64,18 @@
 
 				<div class="container">
 				  <label for="uname"><b>Username</b></label>
-				  <input type="text" placeholder="Enter Username" name="uname" id="input-35" required>
+				  <input type="text" placeholder="Enter Username" name="uname" id="input-1" required>
 				  
 				  <label for="email"><b>Email</b></label>
-				  <input type="text" placeholder="Enter Email" name="email" id="input-36" required>
+				  <input type="text" placeholder="Enter Email" name="email" id="input-2" required>
 
 				  <label for="psw"><b>Password</b></label>
-				  <input type="password" placeholder="Enter Password" name="psw" id="input-37" required>
+				  <input type="password" placeholder="Enter Password" name="psw" id="input-3" required>
 				  
 				  <label for="psw_repeat"><b>Repeat Password</b></label>
-				  <input type="password" placeholder="Repeat Password" name="psw_repeat" id="input-38" required>
+				  <input type="password" placeholder="Repeat Password" name="psw_repeat" id="input-4" required>
 
-				  <div> <a href="#" class="register_button" id="register">Register</a></div>
+				<div> <a href="#" class="register_button" id="register">Register</a></div>
 				  
 				</div>
 
@@ -85,7 +84,32 @@
 				</div>
 			  </form>
 			</div>
-	  <li><a href="#">Login</a></li>
+			
+	  <li><a onclick="document.getElementById('id01').style.display='block'">Login</a></li>
+	  <!-- Log in pop-up form  -->
+			<div id="id01" class="modal">
+			  <span onclick="document.getElementById('id01').style.display='none'" 
+			class="close" title="Close">&times;</span>
+
+			  <!-- Registration form content -->
+			  <form class="modal-content animate">
+
+				<div class="container">
+				  <label for="uname"><b>Username</b></label>
+				  <input type="text" placeholder="Enter Username" name="uname" id="input-1" required>
+				  
+				  <label for="psw"><b>Password</b></label>
+				  <input type="password" placeholder="Enter Password" name="psw" id="input-3" required>
+				  
+				<div> <a href="#" class="register_button" id="register">Log in</a></div>
+				  
+				</div>
+
+				<div class="container">
+				  <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+				</div>
+			  </form>
+			</div>
 	  </div>
     </ul>
 	

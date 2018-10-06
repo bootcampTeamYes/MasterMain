@@ -31,22 +31,31 @@ public class RegistrationDatabaseManager {
 	private void CreateConnection() throws ClassNotFoundException, SQLException {
 
 		if (conn == null) {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
 
 			conn.setAutoCommit(false);
 		}
 	}
 
-	public Connection getConn() {
-		return conn;
-	}
+	private void CloseConnection() throws ClassNotFoundException, SQLException {
 
+		if (conn != null) {
+
+			conn.close();
+			conn=null;
+		}
+	}
+	
+	public Connection getConn() {
+		return conn; 
+	}
+	
 	public void setConn(Connection conn) {
 		this.conn = conn;
 	}
 
-	// Printē visus linkus
+
 	public List<Registration> getAllRegistrations() throws ClassNotFoundException, SQLException {
 
 		CreateConnection();
@@ -61,11 +70,11 @@ public class RegistrationDatabaseManager {
 			Registration link = new Registration(rs.getString(1), rs.getString(2), rs.getString(3));
 			liste.add(link);
 		}
-
+		CloseConnection();
 		return liste;
 	}
 
-	// Atrod linku pēc id(saīsinātā nosaukuma), ja neatrod, tad atgriež tukšu linku
+
 	public Registration getRegistration(String username) throws ClassNotFoundException, SQLException {
 
 		CreateConnection();
@@ -76,10 +85,10 @@ public class RegistrationDatabaseManager {
 		rs = ps.executeQuery();
 
 		if (rs.next() == true) {
-
+ 
 			return new Registration(rs.getString(1), rs.getString(2), rs.getString(3));
 		}
-
+		CloseConnection();
 		return null;
 	}
 	
@@ -96,9 +105,13 @@ public class RegistrationDatabaseManager {
 		while (rs.next()) {
 			String id = rs.getString(1);
 	        String url = rs.getString(2);
-			 liste.add(new URL(id, url));
-		}
 
+	        int length = username.length();
+	        String newId = id.substring(length+2, id.length());
+
+			 liste.add(new URL(newId, url));
+		}
+		CloseConnection();
 		return liste;
 	}
 	
@@ -115,12 +128,12 @@ public class RegistrationDatabaseManager {
 
 	       	return rs.getString(2);
 		}
-
+		CloseConnection();
 		return "Link not found";
 	}
 
-	// Ieliek datubāzē jauno linku.
-	public boolean insertRegistration(String username, String password, String email) throws ClassNotFoundException {
+
+	public boolean insertRegistration(String username, String password, String email) throws ClassNotFoundException, SQLException {
 
 		sql = "INSERT INTO easylink.Registration VALUES(?,?,?)";
 
@@ -142,6 +155,7 @@ public class RegistrationDatabaseManager {
 			e.printStackTrace();
 			return false;
 		}
+		CloseConnection();
 		return true;
 	}
 
@@ -160,19 +174,20 @@ public class RegistrationDatabaseManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return false;
 	}
 
-	public boolean deleteRegistration(String id) {
-		// TODO #7 Write an sql statement that deletes teacher from database. 
+	public boolean deleteRegistration(String username) throws ClassNotFoundException, SQLException {
+
 		boolean status = false;
-		sql = "DELETE FROM easylink.easylink WHERE id = ?";
+		sql = "DELETE FROM easylink.Registration WHERE username = ?";
 
 		int result = 0;
 		try {
 
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
+			ps.setString(1, username);
 
 			result = ps.executeUpdate();
 			if (result == 0) {
@@ -188,6 +203,7 @@ public class RegistrationDatabaseManager {
 				status = true;
 			}
 		}
+		CloseConnection();
 		return status;
 	}
 }

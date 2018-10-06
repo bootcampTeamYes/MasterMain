@@ -41,6 +41,15 @@ public class EasyLinkDatabaseManager {
 		}
 	}
 
+	private void CloseConnection() throws ClassNotFoundException, SQLException {
+
+		if (conn != null) {
+
+			conn.close();
+			conn=null;
+		}
+	}
+	
 	public Connection getConn() {
 		return conn;
 	}
@@ -64,7 +73,7 @@ public class EasyLinkDatabaseManager {
 			link = new URL(rs.getString(1), rs.getString(2));
 			liste.add(link);
 		}
-
+		CloseConnection();
 		return liste;
 	}
 
@@ -79,10 +88,10 @@ public class EasyLinkDatabaseManager {
 		rs = ps.executeQuery();
 
 		if (rs.next() == true) {
-
+		
 			return rs.getString(2);
 		}
-
+		
 		return "You`re not lucky. No link found for such Id :(";
 	}
 
@@ -96,15 +105,15 @@ public class EasyLinkDatabaseManager {
 		rs = ps.executeQuery();
 
 		if (rs.next() == true) {
-
+			CloseConnection();
 			return rs.getString(1);
 		}
-
+		CloseConnection();
 		return "You`re not lucky. No password found for such user :(";
 	}
 	
 	// Ieliek datubāzē jauno linku.
-	public boolean insertLink(String id, String full_url) throws ClassNotFoundException {
+	public boolean insertLink(String id, String full_url) throws ClassNotFoundException, SQLException {
 
 		sql = "INSERT INTO easylink.easylink VALUES(?,?,?)";
 
@@ -124,16 +133,17 @@ public class EasyLinkDatabaseManager {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			CloseConnection();
 			return false;
 		}
+		CloseConnection();
 		return true;
 	}
 	
-	public boolean insertLink(String id, String full_url, String username) throws ClassNotFoundException {
+	public boolean insertLink(String id, String full_url, String username) throws ClassNotFoundException, SQLException {
 
 		sql = "INSERT INTO easylink.easylink VALUES(?,?,?)";
 
-		try {
 			CreateConnection();
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, id);
@@ -143,14 +153,13 @@ public class EasyLinkDatabaseManager {
 			int res = ps.executeUpdate();
 
 			if (res == 0) {
+				CloseConnection();
 				return false;
 			}
+			
 			conn.commit();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
+		CloseConnection();
 		return true;
 	}
 
@@ -193,6 +202,7 @@ public class EasyLinkDatabaseManager {
 			if (result != 0) {
 				status = true;
 			}
+			CloseConnection();
 		return status;
 	}
 }
