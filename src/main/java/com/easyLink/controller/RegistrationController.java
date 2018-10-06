@@ -30,6 +30,9 @@ public class RegistrationController {
 
 	@Autowired
 	private RegistrationDatabaseManager dbManager;
+	
+	@Autowired
+	private EasyLinkDatabaseManager controller;
 
 
 	@RequestMapping("/register")
@@ -60,13 +63,13 @@ public class RegistrationController {
 		}
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/user/{username}")
+	@RequestMapping(method = RequestMethod.POST, value = "/pass/{username}")
 	public boolean getCheckPassword(@RequestBody Login login, HttpServletResponse httpServletResponse,
 	@PathVariable(value="username") String username)
 			throws ClassNotFoundException, SQLException {
 
 		EasyLinkDatabaseManager manager = new EasyLinkDatabaseManager();
-
+		
 			if(login.getPassword().equals(manager.getPassword(login.getUsername()))) {
 				return true;
 		}
@@ -190,6 +193,13 @@ public class RegistrationController {
 	public String deleteRegistration(@PathVariable String username) throws ClassNotFoundException, SQLException {
 		StringBuilder sb = new StringBuilder();
 		boolean result = false;
+		
+		Set<URL> liste = dbManager.getRegistrationLinks(username);
+		
+		for(URL item : liste) {
+			controller.deleteLink("("+username+")"+item.getId());
+		}
+		
 		result = dbManager.deleteRegistration(username);
 
 		if (result) {

@@ -1,12 +1,20 @@
 
 window.onload = readCookie;
-console.log("pec seta: "+readCookie("cepums"));
 
 window.onload = setUser;
 var value = readCookie("cepums");
 var link = 'http://localhost:8080/'+value+'/links';
-http://localhost:8080/links
-////////////////////////
+
+
+$('#logOut').click(function() {
+
+  window.onload = eraseCookie("cepums");
+
+window.location.assign("http://localhost:8080");
+});
+
+
+////////////////////////////////////////////////////////////////////////////
 
 
 $('#save-Reg-URL').click(function() {
@@ -23,7 +31,7 @@ $('#save-Reg-URL').click(function() {
         alert("Link not valid!");
 
     } else {
-	console.log("links ir: "+link);
+
         $.ajax({
             url: link,
             type: "POST",
@@ -39,7 +47,7 @@ $('#save-Reg-URL').click(function() {
                     alert("Id already exists. Please choose another Id");
                 }
             }
-        })
+        });
 
 
     }
@@ -48,6 +56,17 @@ $('#save-Reg-URL').click(function() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+ function createCookie(name, value, days) {
+    var expires = '',
+    date = new Date();
+    if (days) {
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = '; expires=' + date.toGMTString();
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
+  }
+  
+  
    function readCookie(name) {
     var nameEQ = name + '=',
     allCookies = document.cookie.split(';'),
@@ -65,13 +84,19 @@ $('#save-Reg-URL').click(function() {
     }
     return null;
   }
-  
+
+function eraseCookie(name) {
+    createCookie("cepums","",-1);
+}
+
   function setUser() {
   var names = readCookie("cepums");
-        //document.getElementById('usernameText').innerHTML = "<a href="/" >names</a>";
         document.getElementById('usernameText').text = names;
       }
       
+      
+      
+    /*
       
 function getCookie(cname) {
     var name = cname + "=";
@@ -97,3 +122,4 @@ function checkCookie() {
         
     }
 }
+*/

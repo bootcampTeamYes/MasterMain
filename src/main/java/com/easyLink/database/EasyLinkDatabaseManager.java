@@ -23,7 +23,7 @@ public class EasyLinkDatabaseManager {
 	private void CreateConnection() throws ClassNotFoundException, SQLException {
 
 		if (conn == null) {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
 
 			conn.setAutoCommit(false);
@@ -66,7 +66,7 @@ public class EasyLinkDatabaseManager {
 		return liste;
 	}
 
-	// Atrod linku pēc id(saīsinātā nosaukuma), ja neatrod, tad atgriež tukšu linku
+	// Atrod linku pēc id(saīsinātā nosaukuma), ja neatrod, tad atgriež tukšu linku 
 	public String getLink(String id) throws ClassNotFoundException, SQLException {
 
 		CreateConnection();
@@ -76,11 +76,13 @@ public class EasyLinkDatabaseManager {
 		ps.setString(1, id);
 		rs = ps.executeQuery();
 
-		if (rs.next() == true) {
-		
-			return rs.getString(2);
+		if (rs.next() == true) { 
+			String res = rs.getString(2);
+			CloseConnection();
+			return res;
+
 		}
-		
+		CloseConnection();
 		return "You`re not lucky. No link found for such Id :(";
 	}
 
@@ -94,8 +96,9 @@ public class EasyLinkDatabaseManager {
 		rs = ps.executeQuery();
 
 		if (rs.next() == true) {
+			String res = rs.getString(1);
 			CloseConnection();
-			return rs.getString(1);
+			return res;
 		}
 		CloseConnection();
 		return "You`re not lucky. No password found for such user :(";

@@ -83,12 +83,9 @@ $('#register').click(function() {
                          if (d.result) {
                       
                              alert("Thanks for registering!");
-                             
-                             
+    
                             createCookie("cepums", username1, 1);
-							console.log("pec seta: "+readCookie("cepums"));
-							window.alert(readCookie("cepums"));
-                             console.log("pec seta checkCookie: "+readCookie("cepums"));
+
                              window.location.assign("http://localhost:8080/register.html");
                          } else {
                              alert("Registration not successfull!");
@@ -122,6 +119,8 @@ $('#register').click(function() {
     document.cookie = name + "=" + value + expires + "; path=/";
   }
   
+  
+  /*
    function readCookie(name) {
     var nameEQ = name + '=',
     allCookies = document.cookie.split(';'),
@@ -169,3 +168,4 @@ function checkCookie() {
 //setCookie('cname',document.getElementById('cname').value,10800000);
 
 getCookie('loan');
+*/

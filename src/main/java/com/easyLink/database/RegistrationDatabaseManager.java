@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import com.easyLink.controller.EasyLinkController;
 import com.easyLink.links.URL;
 import com.easyLink.registration.Registration;
 
@@ -30,12 +31,12 @@ public class RegistrationDatabaseManager {
 
 	private void CreateConnection() throws ClassNotFoundException, SQLException {
 
-		if (conn == null) {
+		if (conn == null) { 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
 
 			conn.setAutoCommit(false);
-		}
+		} 
 	}
 
 	private void CloseConnection() throws ClassNotFoundException, SQLException {
@@ -87,8 +88,8 @@ public class RegistrationDatabaseManager {
 		if (rs.next() == true) {
  
 			return new Registration(rs.getString(1), rs.getString(2), rs.getString(3));
-		}
-		CloseConnection();
+		} 
+		CloseConnection(); 
 		return null;
 	}
 	
@@ -185,7 +186,7 @@ public class RegistrationDatabaseManager {
 
 		int result = 0;
 		try {
-
+			CreateConnection();
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, username);
 
