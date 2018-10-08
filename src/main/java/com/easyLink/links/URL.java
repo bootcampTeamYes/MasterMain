@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class URL{
+public class URL {
 
 	@Id
 	private String id;

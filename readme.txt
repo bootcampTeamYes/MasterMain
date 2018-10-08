@@ -3,6 +3,7 @@ For users:
 This application allows you to shorten your links and name them by specified Id. Firstly
 To run the program successfully it is necessary to have MySQL database server installed on your machine.
 Database Username must be set to: "root" and password must be set to "abcd1234".
+Start the database server on your machine.
 User interface can be found entering "http://localhost:8080/" in your Web Browser address bar.
 	Home page
 Now you can see two input fields *Long URL* and *Short URL*.
@@ -12,7 +13,6 @@ address : "http://localhost:8080/links/*Short URL*".
 Few words about our frugal navigation bar.
 Home button always returns you to homepage, whenever you are.
 About button as you already see is our web page documentation.
-!!!MY LISTS!!! button place after registration you will see your accounts list of shortened links.
 Logically, Register button opens registration form. There you must enter your account name/nickname(maximum 100 symbols),
 Email(maximum 100 symbols), Password(maximum 100 symbols & password must contain at least one uppercase symbol, lowercase symbol and number) + re-enter it.
 Login button opens Login page, where if you are already registered, you can enter password and login to open homepage as concrete user.

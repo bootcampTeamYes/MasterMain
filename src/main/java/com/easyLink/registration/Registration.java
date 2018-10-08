@@ -11,68 +11,66 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import com.easyLink.links.URL; 
+import com.easyLink.links.URL;
 
 @Entity
 public class Registration {
 
-		@Id
-		@GeneratedValue(strategy = GenerationType.AUTO)   //makes new object Link in database ?? 
-		private String username;
-		private String password;
-		private String email;
-		
-		@OneToMany(fetch = FetchType.EAGER)
-		@JoinColumn(name = "id")
-		private Set<URL> URLList;
-		
-		
-		public Registration() {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO) // makes new object Link in database ??
+	private String username;
+	private String password;
+	private String email;
 
-		}
-	
-		public Registration(String username){
-			this.username=username;	
-		}
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id")
+	private Set<URL> URLList;
 
-		public Registration(String username, String password, String email) {
-			this.username = username;
-			this.password = password;
-			this.email=email;
-			this.URLList=new HashSet<>();
-		}
+	public Registration() {
 
-		public String getUsername() {
-			return username;
-		}
+	}
 
-		public void setUsername(String username) {
-			this.username = username;
-		}
+	public Registration(String username) {
+		this.username = username;
+	}
 
-		public String getPassword() {
-			return password;
-		}
+	public Registration(String username, String password, String email) {
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.URLList = new HashSet<>();
+	}
 
-		public void setPassword(String password) {
-			this.password = password;
-		}
+	public String getUsername() {
+		return username;
+	}
 
-		public String getEmail() {
-			return email;
-		}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-		public void setEmail(String email) {
-			this.email = email;
-		}
+	public String getPassword() {
+		return password;
+	}
 
-		public Set<URL> getList() {
-			return URLList;
-		}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-		public void addToList(URL url) {
-			this.URLList.add(url);
-		}
+	public String getEmail() {
+		return email;
+	}
 
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Set<URL> getList() {
+		return URLList;
+	}
+
+	public void addToList(URL url) {
+		this.URLList.add(url);
+	}
 
 }

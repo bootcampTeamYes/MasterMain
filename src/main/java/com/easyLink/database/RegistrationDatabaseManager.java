@@ -31,12 +31,12 @@ public class RegistrationDatabaseManager {
 
 	private void CreateConnection() throws ClassNotFoundException, SQLException {
 
-		if (conn == null) { 
+		if (conn == null) {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
 
 			conn.setAutoCommit(false);
-		} 
+		}
 	}
 
 	private void CloseConnection() throws ClassNotFoundException, SQLException {
@@ -44,18 +44,17 @@ public class RegistrationDatabaseManager {
 		if (conn != null) {
 
 			conn.close();
-			conn=null;
+			conn = null;
 		}
 	}
-	
+
 	public Connection getConn() {
-		return conn; 
+		return conn;
 	}
-	
+
 	public void setConn(Connection conn) {
 		this.conn = conn;
 	}
-
 
 	public List<Registration> getAllRegistrations() throws ClassNotFoundException, SQLException {
 
@@ -75,7 +74,6 @@ public class RegistrationDatabaseManager {
 		return liste;
 	}
 
-
 	public Registration getRegistration(String username) throws ClassNotFoundException, SQLException {
 
 		CreateConnection();
@@ -86,18 +84,18 @@ public class RegistrationDatabaseManager {
 		rs = ps.executeQuery();
 
 		if (rs.next() == true) {
- 
+
 			return new Registration(rs.getString(1), rs.getString(2), rs.getString(3));
-		} 
-		CloseConnection(); 
+		}
+		CloseConnection();
 		return null;
 	}
-	
+
 	public Set<URL> getRegistrationLinks(String username) throws ClassNotFoundException, SQLException {
 
 		CreateConnection();
 		Set<URL> liste = new HashSet<>();
-		
+
 		String sql = "SELECT * FROM easylink.easylink WHERE username=?";
 		ps = conn.prepareStatement(sql);
 		ps.setString(1, username);
@@ -105,21 +103,21 @@ public class RegistrationDatabaseManager {
 
 		while (rs.next()) {
 			String id = rs.getString(1);
-	        String url = rs.getString(2);
+			String url = rs.getString(2);
 
-	        int length = username.length();
-	        String newId = id.substring(length+2, id.length());
+			int length = username.length();
+			String newId = id.substring(length + 2, id.length());
 
-			 liste.add(new URL(newId, url));
+			liste.add(new URL(newId, url));
 		}
 		CloseConnection();
 		return liste;
 	}
-	
+
 	public String getRegistrationLink(String id) throws ClassNotFoundException, SQLException {
 
 		CreateConnection();
-		
+
 		String sql = "SELECT * FROM easylink.easylink WHERE id=?";
 		ps = conn.prepareStatement(sql);
 		ps.setString(1, id);
@@ -127,14 +125,14 @@ public class RegistrationDatabaseManager {
 
 		while (rs.next()) {
 
-	       	return rs.getString(2);
+			return rs.getString(2);
 		}
 		CloseConnection();
 		return "Link not found";
 	}
 
-
-	public boolean insertRegistration(String username, String password, String email) throws ClassNotFoundException, SQLException {
+	public boolean insertRegistration(String username, String password, String email)
+			throws ClassNotFoundException, SQLException {
 
 		sql = "INSERT INTO easylink.Registration VALUES(?,?,?)";
 
@@ -175,7 +173,7 @@ public class RegistrationDatabaseManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return false;
 	}
 

@@ -9,12 +9,11 @@ import org.springframework.stereotype.Service;
 import com.easyLink.links.URL;
 
 /**
- * This class create connection with databse and provide methods to work with it.
- * In fields USERNAME, PASSWORD and CONN_STRING put corresponding information about database maintenance tool you are working with.
- * And if connection with database established,
- *  - method getAllLinks() return all records from database
- *  - method getLink(*id*) return full url address
- *  - method
+ * This class create connection with databse and provide methods to work with
+ * it. In fields USERNAME, PASSWORD and CONN_STRING put corresponding
+ * information about database maintenance tool you are working with. And if
+ * connection with database established, - method getAllLinks() return all
+ * records from database - method getLink(*id*) return full url address - method
  *
  * @author Kristaps, Raivis, Martins, Arturs
  */
@@ -46,10 +45,10 @@ public class EasyLinkDatabaseManager {
 		if (conn != null) {
 
 			conn.close();
-			conn=null;
+			conn = null;
 		}
 	}
-	
+
 	public Connection getConn() {
 		return conn;
 	}
@@ -77,7 +76,7 @@ public class EasyLinkDatabaseManager {
 		return liste;
 	}
 
-	// Atrod linku pēc id(saīsinātā nosaukuma), ja neatrod, tad atgriež tukšu linku 
+	// Atrod linku pēc id(saīsinātā nosaukuma), ja neatrod, tad atgriež tukšu linku
 	public String getLink(String id) throws ClassNotFoundException, SQLException {
 
 		CreateConnection();
@@ -87,7 +86,7 @@ public class EasyLinkDatabaseManager {
 		ps.setString(1, id);
 		rs = ps.executeQuery();
 
-		if (rs.next() == true) { 
+		if (rs.next() == true) {
 			String res = rs.getString(2);
 			CloseConnection();
 			return res;
@@ -114,7 +113,7 @@ public class EasyLinkDatabaseManager {
 		CloseConnection();
 		return "You`re not lucky. No password found for such user :(";
 	}
-	
+
 	// Ieliek datubāzē jauno linku.
 	public boolean insertLink(String id, String full_url) throws ClassNotFoundException, SQLException {
 
@@ -125,7 +124,7 @@ public class EasyLinkDatabaseManager {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, id);
 			ps.setString(2, full_url);
-			ps.setString(3,  null);
+			ps.setString(3, null);
 
 			int res = ps.executeUpdate();
 
@@ -142,25 +141,25 @@ public class EasyLinkDatabaseManager {
 		CloseConnection();
 		return true;
 	}
-	
+
 	public boolean insertLink(String id, String full_url, String username) throws ClassNotFoundException, SQLException {
 
 		sql = "INSERT INTO easylink.easylink VALUES(?,?,?)";
 
-			CreateConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
-			ps.setString(2, full_url);
-			ps.setString(3, username);
+		CreateConnection();
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, id);
+		ps.setString(2, full_url);
+		ps.setString(3, username);
 
-			int res = ps.executeUpdate();
+		int res = ps.executeUpdate();
 
-			if (res == 0) {
-				CloseConnection();
-				return false;
-			}
-			
-			conn.commit();
+		if (res == 0) {
+			CloseConnection();
+			return false;
+		}
+
+		conn.commit();
 
 		CloseConnection();
 		return true;
@@ -191,21 +190,20 @@ public class EasyLinkDatabaseManager {
 
 		int result = 0;
 
-			CreateConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
+		CreateConnection();
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, id);
 
-			result = ps.executeUpdate();
-			if (result == 0) {
-				return false;
-			}
-			conn.commit();
+		result = ps.executeUpdate();
+		if (result == 0) {
+			return false;
+		}
+		conn.commit();
 
-
-			if (result != 0) {
-				status = true;
-			}
-			CloseConnection();
+		if (result != 0) {
+			status = true;
+		}
+		CloseConnection();
 		return status;
 	}
 }
